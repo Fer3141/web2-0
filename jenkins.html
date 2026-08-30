@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - Jenkins</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="cabecera">
+        <p class="marca">⭐ Mis Apuntes</p>
+      </div>
+
+      <div class="barra-nav">
+        <a href="index.html">[ INICIO ]</a>
+        <a href="sobre-mi.html">[ SOBRE MI ]</a>
+        <a href="enlaces.html">[ ENLACES ]</a>
+        <a href="test.html">[ TEST ]</a>
+      </div>
+
+      <div class="cuerpo">
+        <div class="menu-lateral">
+          <p class="menu-titulo">Menu</p>
+          <nav aria-label="Temas">
+            <ul>
+              <li><a href="jenkins.html" class="activo">Jenkins</a></li>
+              <li><a href="docker.html">Docker</a></li>
+              <li><a href="#">Git (proximamente)</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- COLUMNA 2: sub-menu de Jenkins (solo aparece en jenkins.html) -->
+        <div class="submenu-lateral">
+          <p class="submenu-titulo">Jenkins</p>
+          <nav aria-label="Secciones de Jenkins">
+            <ul>
+              <li><a href="#que-es">Qué es</a></li>
+              <li><a href="#instalar">Instalar</a></li>
+              <li><a href="#primera-vez">La primera vez</a></li>
+              <li><a href="#primer-pipeline">Primer pipeline</a></li>
+              <li><a href="#pipeline-real">Pipeline de verdad</a></li>
+              <li><a href="#triggers">Cuándo arranca</a></li>
+              <li><a href="#jenkinsfile-repo">Jenkinsfile en el repo</a></li>
+              <li><a href="#tests">Tests y reportes</a></li>
+              <li><a href="#comandos">Comandos útiles</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="contenido">
+          <h1>Jenkins</h1>
+
+          <p>
+            Guía práctica para aprender a usar Jenkins desde cero. Estructura
+            basada en <em>Jenkins: The Definitive Guide</em> (O'Reilly), pero
+            con la práctica actual: pipelines como código, Docker y webhooks.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="que-es">Qué es</h2>
+
+          <p>
+            Jenkins es un programa que corre en un servidor y
+            <strong>ejecuta comandos por vos cuando pasa algo</strong> (por
+            ejemplo, cuando alguien sube código a un repo).
+          </p>
+
+          <p>
+            Vos le dejás escrita una instrucción del tipo: <em>"cuando haya un
+            push: bajá el código, compilalo, corré los tests y avisame si algo
+            falló"</em>. Jenkins lo hace solo, todas las veces igual, y te
+            muestra el resultado: <strong>verde</strong> si salió bien,
+            <strong>rojo</strong> si algo se rompió, con el log completo.
+          </p>
+
+          <ul>
+            <li>
+              <strong>CI (Integración Continua):</strong> cada cambio se baja,
+              compila y testea automáticamente. Los errores se detectan en el
+              momento, no días después.
+            </li>
+            <li>
+              <strong>CD (Entrega / Despliegue Continuo):</strong> si los tests
+              pasan, Jenkins empaqueta la app y la despliega a un entorno.
+            </li>
+          </ul>
+
+          <h3>El job (o pipeline)</h3>
+
+          <p>
+            Un <strong>job</strong> es una <strong>receta</strong>: una lista de
+            pasos que Jenkins ejecuta en orden (clonar el repo, compilar,
+            testear, guardar el resultado). Cada ejecución de esa receta es un
+            <strong>build</strong>, y se numera (#1, #2, #3…). Cada build queda
+            guardado con su log y su resultado.
+          </p>
+
+          <h3>Vocabulario</h3>
+
+          <table>
+            <tr><th>Término</th><th>Qué es</th></tr>
+            <tr><td>Job / Pipeline</td><td>La receta: la lista de pasos</td></tr>
+            <tr><td>Build</td><td>Una corrida concreta de un job (#1, #2…)</td></tr>
+            <tr><td>Stage</td><td>Una fase del pipeline: Build, Test, Deploy…</td></tr>
+            <tr><td>Step</td><td>Un comando dentro de un stage</td></tr>
+            <tr><td>Jenkinsfile</td><td>Archivo de texto con el pipeline, guardado en el repo</td></tr>
+            <tr><td>Controller</td><td>El Jenkins que coordina (antes se decía "master")</td></tr>
+            <tr><td>Agent / Node</td><td>La máquina donde se ejecutan los comandos</td></tr>
+            <tr><td>Trigger</td><td>Lo que hace arrancar el job (push, horario, botón)</td></tr>
+            <tr><td>Workspace</td><td>La carpeta donde el agente descarga el código y trabaja</td></tr>
+            <tr><td>Artifact</td><td>Un archivo que el build produce y querés guardar</td></tr>
+            <tr><td>Plugin</td><td>Extensión (Git, Docker, Slack…). Jenkins es casi todo plugins</td></tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="instalar">Instalar (con Docker)</h2>
+
+          <p>
+            La forma más limpia de probar Jenkins es en un contenedor: cuando
+            terminás lo borrás y no queda nada instalado en tu máquina.
+            <strong>Requisito:</strong> Docker Desktop abierto y andando.
+          </p>
+
+          <h3>1. Crear un volumen</h3>
+          <p>
+            El volumen guarda la configuración, los jobs y el historial. Sin
+            volumen, cada reinicio del contenedor borra todo.
+          </p>
+          <pre class="codigo">docker volume create jenkins_home</pre>
+
+          <h3>2. Levantar Jenkins</h3>
+          <pre class="codigo">docker run --name jenkins -d \
+  -p 8080:8080 -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  jenkins/jenkins:lts-jdk21</pre>
+
+          <table>
+            <tr><th>Parte</th><th>Para qué</th></tr>
+            <tr><td><code>--name jenkins</code></td><td>Nombre del contenedor (para parar / borrar)</td></tr>
+            <tr><td><code>-d</code></td><td>Corre en segundo plano</td></tr>
+            <tr><td><code>-p 8080:8080</code></td><td>La interfaz web, en <code>localhost:8080</code></td></tr>
+            <tr><td><code>-p 50000:50000</code></td><td>Canal para los agentes que se conectan</td></tr>
+            <tr><td><code>-v jenkins_home:/var/jenkins_home</code></td><td>Guarda la config en el volumen</td></tr>
+            <tr><td><code>jenkins/jenkins:lts-jdk21</code></td><td>Imagen: versión estable (LTS) con Java 21</td></tr>
+          </table>
+
+          <h3>3. Contraseña inicial</h3>
+          <p>Esperá medio minuto a que arranque y corré:</p>
+          <pre class="codigo">docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword</pre>
+
+          <h3>4. Configurar en el navegador</h3>
+          <ol>
+            <li>Abrí <strong>http://localhost:8080</strong></li>
+            <li>Pegá la contraseña inicial</li>
+            <li>Elegí <strong>"Install suggested plugins"</strong> y esperá</li>
+            <li>Creá tu usuario admin</li>
+          </ol>
+
+          <h3>Otras formas de instalarlo</h3>
+          <p>
+            Además de Docker, Jenkins se distribuye como un <code>.war</code> de
+            Java (<code>java -jar jenkins.war</code>) y como paquete nativo de
+            cada sistema (Debian/Ubuntu, RedHat, Windows como servicio). Todas
+            guardan sus datos en un directorio llamado
+            <strong><code>JENKINS_HOME</code></strong> (en el contenedor es
+            <code>/var/jenkins_home</code>): ahí viven la config, los jobs, el
+            historial y los plugins. El ejecutable de Jenkins se puede
+            reinstalar o actualizar sin tocar ese directorio.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="primera-vez">La primera vez que entrás</h2>
+
+          <h3>El Dashboard</h3>
+          <p>
+            Es la pantalla principal: la lista de jobs (todavía vacía), la cola
+            de builds y el estado general. "New Item" crea un job nuevo.
+          </p>
+
+          <h3>Manage Jenkins</h3>
+          <p>
+            Es el panel de administración. Lo que vas a tocar al principio:
+          </p>
+          <table>
+            <tr><th>Sección</th><th>Para qué</th></tr>
+            <tr><td>System</td><td>Configuración global: servidor de mail, URL de Jenkins, variables de entorno</td></tr>
+            <tr><td>Tools</td><td>Rutas / instalaciones de JDK, Git, Maven, Gradle, Node…</td></tr>
+            <tr><td>Plugins</td><td>Instalar, actualizar y quitar plugins (Jenkins es casi todo plugins)</td></tr>
+            <tr><td>Nodes</td><td>Los agentes donde corren los builds</td></tr>
+            <tr><td>Credentials</td><td>Tokens, claves SSH y secretos (ver más abajo)</td></tr>
+            <tr><td>System Information</td><td>Qué versión de Java y qué variables está usando Jenkins (para diagnosticar)</td></tr>
+            <tr><td>System Log</td><td>El log en vivo</td></tr>
+          </table>
+
+          <h3>Configurar Git</h3>
+          <p>
+            La imagen de Docker ya trae <code>git</code>. Si usás otro sistema,
+            en <strong>Manage Jenkins → Tools</strong> le decís a Jenkins dónde
+            están las herramientas. Para builds de Java necesitarías configurar
+            un JDK ahí; para Node, el plugin de NodeJS; etc.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="primer-pipeline">Primer pipeline</h2>
+
+          <p>
+            Hay dos formas de definir un job: <strong>Freestyle</strong>
+            (llenando formularios en la web) y <strong>Pipeline</strong>
+            (escribiendo la receta como código). Hoy se usa Pipeline. El libro
+            de 2011 usa Freestyle en todos los ejemplos: sirve para entender los
+            conceptos, pero la práctica actual es Pipeline.
+          </p>
+
+          <h3>Crear el job</h3>
+          <ol>
+            <li>Dashboard → <strong>New Item</strong></li>
+            <li>Nombre, elegí <strong>Pipeline</strong>, OK</li>
+            <li>Bajá a la sección <strong>Pipeline</strong></li>
+            <li>En "Script", pegá el pipeline de abajo, Save</li>
+          </ol>
+
+          <h3>El pipeline mínimo</h3>
+          <pre class="codigo">pipeline {
+    agent any
+    stages {
+        stage('Saludar') {
+            steps {
+                echo 'Hola desde Jenkins'
+            }
+        }
+    }
+}</pre>
+
+          <ul>
+            <li><code>pipeline { }</code> — todo el pipeline va acá adentro.</li>
+            <li><code>agent any</code> — ejecutá esto en cualquier máquina disponible.</li>
+            <li><code>stages { }</code> — la lista de fases.</li>
+            <li><code>stage('Saludar') { }</code> — una fase, con nombre.</li>
+            <li><code>steps { }</code> — los comandos de esa fase.</li>
+            <li><code>echo</code> — imprime un texto en el log.</li>
+          </ul>
+
+          <h3>Correrlo y mirarlo</h3>
+          <p><strong>Build Now</strong>. Después, en la página del build:</p>
+          <ul>
+            <li><strong>Console Output</strong> — el log completo. La línea <code>+ echo Hola…</code> es el comando; abajo, su salida.</li>
+            <li><strong>Stage View</strong> (página del job) — las fases en columnas, con el tiempo de cada una.</li>
+            <li><strong>Build History</strong> — #1, #2, #3… cada corrida guardada.</li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="pipeline-real">Pipeline de verdad</h2>
+
+          <p>Cada paso: cambiás el pipeline, Build Now, mirás qué pasó.</p>
+
+          <h3>Que un stage falle</h3>
+          <pre class="codigo">stage('Test') {
+    steps { sh 'exit 1' }
+}</pre>
+          <p>
+            Resultado: <strong>Test se pone rojo</strong>, los stages siguientes
+            <strong>no corren</strong> (Jenkins frena en el primer fallo), el
+            build queda rojo. Eso es CI: un test roto detiene todo antes de
+            deployar.
+          </p>
+
+          <h3>Hacer algo real (no <code>echo</code>)</h3>
+          <pre class="codigo">stage('Build') {
+    steps {
+        sh '''
+            echo "Compilando..."
+            mkdir -p salida
+            echo "app v1.0" > salida/app.txt
+            cat salida/app.txt
+        '''
+    }
+}</pre>
+          <p>
+            <code>sh</code> corre shell de Linux (el contenedor es Linux); en un
+            agente Windows sería <code>bat</code>. <code>'''…'''</code> son
+            varias líneas. Eso crea <code>salida/app.txt</code> en el
+            <strong>workspace</strong> (la carpeta donde este job trabaja).
+            Reemplazás los <code>echo</code> por lo tuyo: <code>mvn package</code>,
+            <code>npm ci &amp;&amp; npm test</code>, etc.
+          </p>
+
+          <h3>Guardar un artefacto</h3>
+          <pre class="codigo">stage('Deploy') {
+    steps {
+        sh 'echo desplegando...'
+        archiveArtifacts artifacts: 'salida/app.txt'
+    }
+}</pre>
+          <p>
+            Después del build aparece <strong>"Build Artifacts"</strong> con
+            <code>app.txt</code> para descargar.
+          </p>
+
+          <h3>Variables y condicionales</h3>
+          <pre class="codigo">pipeline {
+    agent any
+    environment {
+        VERSION = '1.0.3'
+    }
+    stages {
+        stage('Build') {
+            steps { sh 'echo "Compilando version $VERSION"' }
+        }
+        stage('Deploy') {
+            when { branch 'main' }        // solo deploya en la rama main
+            steps { sh 'echo desplegando...' }
+        }
+    }
+}</pre>
+          <ul>
+            <li><code>environment { }</code> — variables para todo el pipeline, se usan como <code>$VERSION</code>.</li>
+            <li><code>when { }</code> — el stage corre solo si se cumple la condición.</li>
+          </ul>
+
+          <h3>El bloque <code>post</code></h3>
+          <pre class="codigo">    post {
+        success { echo 'BUILD OK' }
+        failure { echo 'BUILD ROTO' }
+        always  { sh 'rm -rf salida' }   // corre siempre: limpieza
+    }</pre>
+          <p>
+            Va después de <code>stages</code>, al mismo nivel. Se ejecuta según
+            cómo terminó el pipeline. Es el lugar para notificar cuando rompe.
+          </p>
+
+          <h3>Parámetros</h3>
+          <pre class="codigo">    parameters {
+        choice(name: 'ENTORNO', choices: ['dev', 'staging', 'prod'])
+        booleanParam(name: 'CORRER_TESTS', defaultValue: true)
+    }</pre>
+          <p>
+            Después del primer build el botón pasa a ser
+            <strong>"Build with Parameters"</strong>: te pregunta antes de
+            correr. Se usan como <code>${params.ENTORNO}</code>.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="triggers">Cuándo arranca (triggers)</h2>
+
+          <p>Un trigger es lo que dispara el job. Los principales:</p>
+
+          <h3>Por horario (cron)</h3>
+          <pre class="codigo">triggers {
+    cron('H 2 * * *')       // todas las noches ~2:00
+}</pre>
+          <p>
+            La <code>H</code> significa "una hora al azar dentro de ese rango",
+            para repartir la carga entre jobs.
+          </p>
+
+          <h3>Poll SCM</h3>
+          <pre class="codigo">triggers {
+    pollSCM('H/5 * * * *')  // revisa el repo cada 5 min; si hay cambios, build
+}</pre>
+          <p>
+            Funciona pero es ineficiente (pregunta cada 5 min aunque no haya
+            nada). Mejor el webhook.
+          </p>
+
+          <h3>Webhook desde GitHub (lo que se usa)</h3>
+          <ol>
+            <li>En el job, activá <strong>"GitHub hook trigger for GITScm polling"</strong>.</li>
+            <li>En el repo de GitHub: <em>Settings → Webhooks → Add webhook</em>.</li>
+            <li>Payload URL: <code>http://TU-JENKINS/github-webhook/</code></li>
+            <li>Content type: <code>application/json</code>.</li>
+          </ol>
+          <p>
+            Ahora cada <code>git push</code> le avisa a Jenkins y el build
+            arranca a los segundos. (Si Jenkins corre en tu compu, GitHub no lo
+            alcanza; para probar webhooks necesitás Jenkins en un servidor
+            accesible o un túnel tipo <code>ngrok</code>.)
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="jenkinsfile-repo">El Jenkinsfile en el repo</h2>
+
+          <p>
+            Tener el pipeline pegado en la web de Jenkins tiene problemas: nadie
+            lo ve, no está versionado, y si se rompe el servidor lo perdés. La
+            solución es un archivo <strong><code>Jenkinsfile</code></strong> en
+            la raíz del repo, con el mismo contenido.
+          </p>
+
+          <h3>Conectarlo</h3>
+          <ol>
+            <li>Creá <code>Jenkinsfile</code> en la raíz del repo, pegá el pipeline, commit + push.</li>
+            <li>En la config del job → "Definition" elegí <strong>"Pipeline script from SCM"</strong>.</li>
+            <li>SCM: Git → URL del repo → rama.</li>
+            <li>Script Path: <code>Jenkinsfile</code>.</li>
+          </ol>
+          <p>
+            Ahora la receta vive con el código: queda en el historial de Git,
+            cualquiera la revisa en un PR, y si cambiás de servidor Jenkins se la
+            lleva el repo.
+          </p>
+
+          <h3>Multibranch Pipeline</h3>
+          <p>
+            En vez de un job por proyecto, creás un
+            <strong>Multibranch Pipeline</strong> apuntando al repo. Jenkins
+            recorre las ramas: cada rama que tenga un <code>Jenkinsfile</code> se
+            convierte en su propio pipeline, y cada Pull Request también. Un push
+            a una rama dispara solo el pipeline de esa rama.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="tests">Tests y reportes</h2>
+
+          <p>
+            Si el pipeline solo compila, lo único que te dice es "compila". Un
+            montón de código roto compila perfecto. Los <strong>tests</strong>
+            convierten <em>"compiló"</em> en <em>"probablemente funciona"</em>.
+          </p>
+
+          <h3>Publicar resultados de test</h3>
+          <p>
+            Tu build de tests genera archivos XML (JUnit, surefire, pytest
+            <code>--junitxml</code>, etc.). Le decís a Jenkins que los lea:
+          </p>
+          <pre class="codigo">stage('Test') {
+    steps { sh 'mvn test' }
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+        }
+    }
+}</pre>
+          <p>
+            Con eso, la página del build muestra cuántos tests pasaron /
+            fallaron, cuáles fallaron y desde cuándo, y un
+            <strong>gráfico de tendencia</strong> a lo largo de los builds. Si un
+            test falla, el stage y el build se ponen rojos.
+          </p>
+
+          <h3>Cobertura de código</h3>
+          <p>
+            La cobertura indica qué porcentaje del código se ejecuta durante los
+            tests: sirve para encontrar zonas sin probar. Tu build la genera
+            (JaCoCo, Cobertura) y un plugin la publica. Podés poner un umbral
+            mínimo: si la cobertura baja de, por ejemplo, 50%, Jenkins marca el
+            build como <strong>unstable</strong> (bola amarilla) y avisa.
+          </p>
+          <p>
+            La cobertura es un medio, no un fin: no se trata de subir el número
+            porque sí, sino de detectar código sin testear y agregarle tests.
+          </p>
+
+          <h3>Verde / amarillo / rojo</h3>
+          <table>
+            <tr><th>Color</th><th>Significa</th></tr>
+            <tr><td>Verde (o azul)</td><td>Build OK: compiló y pasó los criterios de calidad</td></tr>
+            <tr><td>Amarillo</td><td>Unstable: compiló pero falló algún test o quedó bajo un umbral</td></tr>
+            <tr><td>Rojo</td><td>Failed: el build no llegó a terminar (error de compilación, comando que falló)</td></tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="comandos">Comandos útiles del contenedor</h2>
+
+          <pre class="codigo">docker logs -f jenkins        # ver el log en vivo
+docker stop jenkins           # apagar
+docker start jenkins          # prender otra vez
+docker restart jenkins        # reiniciar
+docker exec -it jenkins bash  # entrar al contenedor
+docker rm -f jenkins          # borrar el contenedor (el volumen sigue)
+docker volume rm jenkins_home # borrar la config también (todo)</pre>
+
+          <ul>
+            <li>
+              La config, los jobs y el historial viven en
+              <code>/var/jenkins_home</code> dentro del contenedor, que es el
+              volumen <code>jenkins_home</code>.
+            </li>
+            <li>
+              Mientras no borres el volumen, podés borrar y recrear el contenedor
+              todas las veces que quieras sin perder nada.
+            </li>
+            <li>
+              <strong>Backup:</strong> hacer copia del volumen
+              (<code>docker cp jenkins:/var/jenkins_home ./backup</code>).
+            </li>
+            <li>
+              <strong>Limpiar builds viejos:</strong> en el pipeline,
+              <code>options { buildDiscarder(logRotator(numToKeepStr: '20')) }</code>
+              guarda solo los últimos 20.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pie"></div>
+    </div>
+
+    <script src="js/nieve.js"></script>
+  </body>
+</html>

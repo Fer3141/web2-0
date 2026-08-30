@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>web2-0 - Test (adornos shrine)</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+	<div class="cabecera">
+		<p class="marca">⭐ Mis Apuntes</p>
+		<p>::: pagina de prueba para ver los adornos :::</p>
+	</div>
+
+	<div class="barra-nav">
+		<a href="index.html">[ INICIO ]</a>
+		<a href="sobre-mi.html">[ SOBRE MI ]</a>
+		<a href="enlaces.html">[ ENLACES ]</a>
+		<a href="test.html">[ TEST ]</a>
+	</div>
+
+	<div class="cuerpo">
+
+		<div class="menu-lateral">
+			<p class="menu-titulo">Menu</p>
+			<nav aria-label="Temas">
+			<ul>
+				<li><a href="jenkins.html">Jenkins</a></li>
+				<li><a href="docker.html">Docker</a></li>
+				<li><a href="#">Git (proximamente)</a></li>
+			</ul>
+			</nav>
+			<!-- adorno 5: la cajita de estado, en su lugar natural -->
+			<div class="estado">
+				<b>&raquo; Estado &laquo;</b>
+				<hr>
+				Escuchando: un MIDI<br>
+				Animo: nostalgica<br>
+				Leyendo: docs de Docker
+			</div>
+		</div>
+
+		
+
+		<div class="contenido">
+<h1>&raquo; Galeria de adornos &laquo;</h1>
+<p>Cada bloque es un elemento tipico de una pagina <em>shrine</em> de
+los 2000. El codigo esta en este archivo y en <code>estilos.css</code>
+(seccion "ADORNOS ESTILO SHRINE").</p>
+
+<h2>1. Separador candy</h2>
+<p>Reemplaza al <code>&lt;hr&gt;</code>. Es CSS puro, sin imagen, y se mueve.</p>
+<div class="separador"></div>
+
+<h2>2. Marquesina de texto</h2>
+<p>El viejo <code>&lt;marquee&gt;</code>, hecho con animacion de CSS.</p>
+<div class="marquesina"><span>&#9733; Bienvenida a mi rincon &#9733; Ultima actualizacion: agosto 2026 &#9733; Firma el libro de visitas &#9733; Gracias por visitar &#9733;</span></div>
+
+<div class="separador"></div>
+
+<h2>3. Contador de visitas</h2>
+<p>Funciona de verdad, pero cuenta por navegador (guarda el numero en
+<code>localStorage</code>): no es un total global de todos los visitantes.</p>
+<p class="contador">Visitas: <span id="hits">00000</span></p>
+
+<div class="separador"></div>
+
+<h2>4. Novedades</h2>
+<ul>
+	<li><b>2026-08-29</b> &mdash; Agregue los apuntes de Jenkins.</li>
+	<li><b>2026-08-24</b> &mdash; Nacio la web 2.0.</li>
+</ul>
+
+<div class="separador"></div>
+
+<h2>5. Cajita de estado</h2>
+<p>La ves en el menu de la izquierda. Sirve para contar que estas
+escuchando, leyendo, tu animo, etc.</p>
+
+<div class="separador"></div>
+
+<h2>6. Blinkie</h2>
+<p>Un badge parpadeante, sin imagen.</p>
+<span class="blinkie">&#9733; Best viewed with imagination &#9733;</span>
+<span class="blinkie">Pikachu approved</span>
+
+<div class="separador"></div>
+
+<h2>7. Caja de webring</h2>
+<div class="webring">
+	<b>Webring: Rincones Personales</b><br>
+	<a href="#">&laquo; Anterior</a> &middot;
+	<a href="#">Azar</a> &middot;
+	<a href="#">Lista</a> &middot;
+	<a href="#">Siguiente &raquo;</a>
+</div>
+
+<div class="separador"></div>
+
+<h2>8. Todos los GIFs de la carpeta <code>gifs/</code></h2>
+<p>Los 9 gifs que tenes ahora mismo, a 150px. Se pueden usar como
+separadores entre secciones, adornos en el menu, etc.</p>
+<p style="text-align:center; line-height:2;">
+	<img src="gifs/mew.gif" alt="mew.gif" width="150">
+	<img src="gifs/mew2.gif" alt="mew2.gif" width="150">
+	<img src="gifs/mew3.gif" alt="mew3.gif" width="150">
+	<img src="gifs/pikachu2.gif" alt="pikachu2.gif" width="150">
+	<img src="gifs/pikachu3.gif" alt="pikachu3.gif" width="150">
+	<img src="gifs/pikachu4.gif" alt="pikachu4.gif" width="150">
+	<img src="gifs/planta1.gif" alt="planta1.gif" width="150">
+	<img src="gifs/planta2.gif" alt="planta2.gif" width="150">
+	<img src="gifs/planta3.gif" alt="planta3.gif" width="150">
+</p>
+
+<div class="separador"></div>
+
+<h2>9. Planta como "estado de la nota" (jardin digital)</h2>
+<p>La misma idea del 🌱 / 🌿 / 🌳 pero con tus gifs: marcar si una
+nota es semilla, esta creciendo o ya esta madura.</p>
+<ul>
+	<li><img src="gifs/planta3.gif" alt="semilla" width="28" style="vertical-align:middle;"> <b>Docker</b> &mdash; semilla (todavia no la empece)</li>
+	<li><img src="gifs/planta2.gif" alt="creciendo" width="28" style="vertical-align:middle;"> <b>Jenkins</b> &mdash; creciendo (la estoy escribiendo)</li>
+	<li><img src="gifs/planta1.gif" alt="madura" width="28" style="vertical-align:middle;"> <b>HTML basico</b> &mdash; madura (ya la entiendo bien)</li>
+</ul>
+		</div>
+
+	</div>
+
+	<div class="pie"></div>
+
+</div>
+
+<script src="js/nieve.js"></script>
+<script src="js/contador.js"></script>
+</body>
+</html>

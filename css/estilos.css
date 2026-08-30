@@ -1,0 +1,386 @@
+/* ============================================
+   ESTILOS  web2-0
+   Hecho con <div> y flexbox (sin tablas de maquetado),
+   pero con la vibra pastel de las paginas personales
+   de los 90 / 2000: Comic Sans, colores suaves,
+   bordes con relieve y cartel de "en construccion".
+   ============================================ */
+
+/* que el padding y el borde NO agranden las cajas */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	color: #5b4b57;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+
+	/* papel tapiz: fondo.jpg repetido como mosaico (la ruta es
+	   relativa a este archivo CSS, que esta en css/) */
+	background-color: #f6eef7;              /* color de respaldo si la imagen no carga */
+	background-image: url("../gifs/fondo.jpg");
+	background-repeat: repeat;              /* se repite en X e Y (es el valor por defecto) */
+}
+
+/* caja que centra y limita el ancho de toda la pagina */
+.contenedor {
+	width: 92%;
+	max-width: 1400px;
+	margin: 20px auto;
+	background-color: #f3e6de;
+	border: 4px outset #ffffff;   /* borde con relieve tipo Windows 98 */
+}
+
+/* ---------- franja de arriba con el titulo ---------- */
+.cabecera {
+	background-color: #d9c2d9;
+	padding: 16px;
+	text-align: center;
+}
+
+/* nombre del sitio (marca): NO es un <h1>, es solo el logo de texto
+   que se repite en todas las paginas */
+.cabecera .marca {
+	display: inline-block;              /* para que el fondo rosa envuelva solo al texto */
+	margin: 0;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: clamp(24px, 3.2vw, 40px);
+	color: #6b4d66;
+	text-shadow: 1px 1px 0 #ffffff;
+	background-color: #efe0ee;          /* el recuadro rosa claro de web1-0 */
+	padding: 4px 16px;
+	border-radius: 6px;
+}
+
+.cabecera p {
+	margin: 6px 0 0;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 13px;
+	color: #7a5f76;
+}
+
+/* ---------- menu horizontal de arriba ---------- */
+.barra-nav {
+	background-color: #cfe3d8;
+	border-top: 2px solid #ffffff;
+	border-bottom: 1px solid #b7cec1;
+	padding: 8px;
+	text-align: center;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-weight: bold;
+}
+
+.barra-nav a {
+	color: #4d6b5a;
+	text-decoration: none;
+	margin: 0 8px;
+	padding: 2px 6px;
+	border-radius: 4px;
+}
+
+.barra-nav a:hover {
+	background-color: #ffffff;
+	color: #3a5347;
+}
+
+/* ---------- zona central: menu al costado + contenido ---------- */
+/* flexbox pone los dos hijos (menu y contenido) uno al lado del otro */
+.cuerpo {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* menu de la izquierda, ancho fijo, con el clasico recuadro amarillento */
+.menu-lateral {
+	width: 200px;
+	background-color: #fdf3d7;
+	border: 2px solid #ecdfb0;
+	padding: 12px;
+	font-size: 15px;
+}
+
+.menu-lateral .menu-titulo {
+	margin: 0 0 8px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #a8709b;
+}
+
+.menu-lateral ul {
+	list-style: none;   /* saca los puntitos */
+	padding: 0;
+	margin: 0;
+}
+
+.menu-lateral li {
+	margin-bottom: 8px;
+	border-bottom: 1px dashed #e0c98a;
+	padding-bottom: 6px;
+}
+
+.menu-lateral a {
+	color: #a8709b;
+	text-decoration: none;
+}
+
+.menu-lateral a:hover {
+	text-decoration: underline;
+}
+
+/* marca el item activo del menu principal (la tecnologia que estas viendo) */
+.menu-lateral a.activo {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+/* ---------- SEGUNDA COLUMNA: sub-menu de la tecnologia ---------- */
+/* Es una columna aparte al lado del menu principal (estilo jenkov.com).
+   No se "expande": simplemente esta presente en la pagina de esa
+   tecnologia (jenkins.html) y no aparece en las demas paginas. */
+.submenu-lateral {
+	width: 210px;
+	background-color: #fff4f9;             /* rosa muy clarito */
+	border-top: 2px solid #ecdfb0;
+	border-bottom: 2px solid #ecdfb0;
+	border-right: 2px solid #ecdfb0;
+	padding: 12px;
+	font-size: 14px;
+}
+
+.submenu-lateral .submenu-titulo {
+	margin: 0 0 8px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	color: #a8709b;
+}
+
+.submenu-lateral ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.submenu-lateral li {
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #e6c9d8;
+	padding-bottom: 6px;
+}
+
+.submenu-lateral a {
+	color: #a8709b;
+	text-decoration: none;
+}
+
+.submenu-lateral a:hover {
+	text-decoration: underline;
+}
+
+/* columna de contenido, ocupa todo el espacio que sobra */
+.contenido {
+	flex: 1;
+	min-width: 260px;
+	background-color: #fffdfb;
+	padding: 18px;
+
+	/* texto del contenido en Verdana, tamanio comodo para leer */
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.contenido h1,
+.contenido h2,
+.contenido h3 {
+	margin-top: 0;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	color: #a8709b;
+}
+
+/* el <h1> de cada pagina: su titulo real (Jenkins, Sobre mi, ...) */
+.contenido h1 {
+	font-size: 26px;
+	margin-bottom: 14px;
+}
+
+/* enlaces del contenido: rosa palido, y morado si ya fueron visitados */
+a {
+	color: #a8709b;
+}
+
+a:visited {
+	color: #8a7aa8;
+}
+
+/* ---------- texto que parpadea (el viejo <blink>) ---------- */
+.parpadea {
+	animation: parpadeo 1.4s ease-in-out infinite;
+	color: #d98fa3;
+	font-weight: bold;
+}
+
+@keyframes parpadeo {
+	50% { opacity: 0.35; }
+}
+
+/* ---------- cartel de "en construccion" ---------- */
+.construccion {
+	background-color: #fdeecb;
+	color: #7a6a4a;
+	font-weight: bold;
+	text-align: center;
+	padding: 8px;
+	border: 2px dashed #e0c98a;
+	border-radius: 6px;
+	margin: 12px 0;
+}
+
+/* ---------- bloque de codigo ---------- */
+.codigo {
+	background-color: #fbf4f8;
+	border: 1px solid #d9c9d6;
+	padding: 10px;
+	font-family: "Courier New", monospace;
+	font-size: 14px;
+	color: #5b4b57;
+	white-space: pre-wrap;   /* corta las lineas largas en vez de desbordar */
+	overflow-x: auto;
+}
+
+/* ---------- tabla de contenido (no de maquetado) ---------- */
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 10px 0;
+}
+
+th, td {
+	border: 1px solid #e3d3dc;
+	padding: 6px 8px;
+	text-align: left;
+}
+
+th {
+	background-color: #d9c2d9;
+	color: #5c4058;
+}
+
+/* ---------- lineas divisorias suaves ---------- */
+hr {
+	border: none;
+	height: 2px;
+	background-color: #e3cfd9;
+}
+
+/* ---------- pie de pagina ---------- */
+.pie {
+	background-color: #e6d6df;
+	color: #7a6172;
+	text-align: center;
+	padding: 10px;
+	font-size: 12px;
+}
+
+.pie a {
+	color: #6b4d66;
+}
+
+/* ---------- pantallas angostas (celular) ---------- */
+/* los menus dejan de estar al costado y pasan arriba, ocupando todo el ancho */
+@media (max-width: 700px) {
+	.menu-lateral,
+	.submenu-lateral {
+		width: 100%;
+		border-width: 2px 0;
+	}
+}
+
+/* ============================================
+   ADORNOS ESTILO "SHRINE"  (se ven en test.html)
+   Cosas tipicas de una pagina personal de los 2000.
+   Misma paleta pastel que el resto.
+   ============================================ */
+
+/* 1) separador candy: reemplaza al <hr>, es CSS puro y se mueve */
+.separador {
+	height: 12px;
+	margin: 18px 0;
+	border-radius: 7px;
+	background: repeating-linear-gradient(90deg,
+		#f7c6dd 0 10px, #c9e7d5 10px 20px, #d9c8ee 20px 30px);
+	background-size: 60px 100%;
+	animation: correr 1s linear infinite;
+}
+
+@keyframes correr {
+	to { background-position: 60px 0; }
+}
+
+/* 2) marquesina: el viejo <marquee> hecho con animacion de CSS */
+.marquesina {
+	overflow: hidden;
+	white-space: nowrap;
+	background-color: #efe0ee;
+	border: 1px solid #d9c2d9;
+	border-radius: 4px;
+	padding: 4px 0;
+}
+
+.marquesina span {
+	display: inline-block;
+	padding-left: 100%;                 /* arranca fuera de la pantalla, a la derecha */
+	animation: desfile 18s linear infinite;
+}
+
+@keyframes desfile {
+	to { transform: translateX(-100%); }
+}
+
+/* 3) contador de visitas */
+.contador {
+	display: inline-block;
+	background-color: #ece3f3;
+	color: #6b5a86;
+	font-family: "Courier New", monospace;
+	font-size: 20px;
+	letter-spacing: 4px;
+	padding: 4px 10px;
+	border: 2px solid #cdb9de;
+	border-radius: 4px;
+}
+
+/* 5) cajita de "estado" para el menu lateral */
+.estado {
+	background-color: #fbf6ea;
+	border: 1px solid #ecdfb0;
+	border-radius: 4px;
+	padding: 8px;
+	margin-top: 12px;
+	font-size: 13px;
+}
+
+/* 6) blinkie: badge parpadeante (reusa la animacion parpadeo) */
+.blinkie {
+	display: inline-block;
+	background-color: #2b2b2b;
+	color: #7CFC00;
+	font-family: "Courier New", monospace;
+	font-size: 11px;
+	text-align: center;
+	padding: 3px 6px;
+	border: 1px solid #000000;
+	animation: parpadeo 1s steps(1) infinite;
+}
+
+/* 7) caja de webring */
+.webring {
+	background-color: #f3e6de;
+	border: 1px solid #d9c2b0;
+	border-radius: 4px;
+	padding: 8px;
+	text-align: center;
+	font-size: 13px;
+}
