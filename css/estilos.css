@@ -6,6 +6,10 @@
    bordes con relieve y cartel de "en construccion".
    ============================================ */
 
+/* Comic Neue: clon libre de Comic Sans, se ve igual en todos los
+   dispositivos (el iPhone no trae Comic Sans y se veia raro). */
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
+
 /* que el padding y el borde NO agranden las cajas */
 * {
 	box-sizing: border-box;
@@ -45,7 +49,7 @@ body {
 .cabecera .marca {
 	display: inline-block;              /* para que el fondo rosa envuelva solo al texto */
 	margin: 0;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	font-size: clamp(24px, 3.2vw, 40px);
 	color: #6b4d66;
 	text-shadow: 1px 1px 0 #ffffff;
@@ -56,7 +60,7 @@ body {
 
 .cabecera p {
 	margin: 6px 0 0;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	font-size: 13px;
 	color: #7a5f76;
 }
@@ -68,7 +72,7 @@ body {
 	border-bottom: 1px solid #b7cec1;
 	padding: 8px;
 	text-align: center;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	font-weight: bold;
 }
 
@@ -103,7 +107,7 @@ body {
 
 .menu-lateral .menu-titulo {
 	margin: 0 0 8px;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	font-size: 16px;
 	font-weight: bold;
 	color: #a8709b;
@@ -152,7 +156,7 @@ body {
 
 .submenu-lateral .submenu-titulo {
 	margin: 0 0 8px;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	font-size: 15px;
 	font-weight: bold;
 	color: #a8709b;
@@ -196,7 +200,7 @@ body {
 .contenido h2,
 .contenido h3 {
 	margin-top: 0;
-	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
 	color: #a8709b;
 }
 
