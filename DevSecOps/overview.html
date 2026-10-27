@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - DevSecOps</title>
+    <link rel="stylesheet" href="../css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <header data-header></header>
+
+      <div class="cuerpo">
+        <div class="menu-lateral" data-menu></div>
+
+        <div class="contenido apuntes">
+          <h1>DevSecOps</h1>
+
+          <img src="devsecops-image.png"/>
+          <p>
+            Un <strong>DevSecOps</strong> (Desarrollo, Seguridad y Operaciones)
+            es un profesional encargado de integrar la seguridad en cada una de
+            las fases del ciclo de vida del desarrollo de software (SDLC).
+          </p>
+          <p>
+            A diferencia del enfoque tradicional, donde la seguridad se evaluaba
+            al final del proyecto (justo antes de salir a producción), DevSecOps
+            promueve la filosofía de <strong>"Shift Left"</strong> (mover la
+            seguridad hacia la izquierda), lo que significa pensar, planificar y
+            probar la seguridad desde el primer día de la codificación.
+          </p>
+          <p>Sus funciones principales incluyen:</p>
+          <ul>
+            <li>
+              <strong>Automatización de la Seguridad (SecOps en CI/CD):</strong>
+              integran herramientas de análisis de código automatizado dentro de
+              las tuberías (pipelines) de despliegue continuo. Esto incluye:
+              <ul>
+                <li>
+                  <strong>SAST</strong> (Static Application Security Testing):
+                  analiza el código fuente en busca de vulnerabilidades.
+                </li>
+                <li>
+                  <strong>DAST</strong> (Dynamic Application Security Testing):
+                  prueba la aplicación en ejecución contra ataques externos.
+                </li>
+                <li>
+                  <strong>SCA</strong> (Software Composition Analysis): revisa las
+                  dependencias y librerías de terceros en busca de fallos
+                  conocidos.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Gestión de Identidades y Accesos (IAM):</strong> configuran
+              políticas de privilegios mínimos para que los desarrolladores,
+              sistemas y servicios solo tengan acceso a lo estrictamente
+              necesario.
+            </li>
+            <li>
+              <strong>Seguridad en la Nube y Contenedores:</strong> aseguran
+              infraestructuras basadas en la nube y orquestadores como Docker y
+              Kubernetes, verificando que las imágenes de los contenedores estén
+              libres de vulnerabilidades.
+            </li>
+            <li>
+              <strong>Respuesta a Incidentes y Monitoreo:</strong> implementan
+              sistemas de monitoreo continuo (como SIEM) para detectar
+              actividades sospechosas, analizar registros y mitigar amenazas
+              rápidamente.
+            </li>
+            <li>
+              <strong>Cultura y Colaboración:</strong> actúan como un puente entre
+              los equipos de desarrollo (Dev), operaciones (Ops) y seguridad
+              (Sec), educando a los desarrolladores sobre prácticas de
+              <em>Secure Coding</em> para evitar errores comunes como inyecciones
+              SQL o problemas de autenticación.
+            </li>
+          </ul>
+
+          <h2 id="como-funciona">Cómo funciona</h2>
+          <p>
+            El mecanismo central de DevSecOps es la automatización integrada
+            directamente en el pipeline de CI/CD. En lugar de depender de
+            revisiones de seguridad manuales justo antes del lanzamiento, los
+            equipos utilizan herramientas automatizadas que se ejecutan con cada
+            confirmación de código (commit), solicitud de extracción (pull
+            request) o compilación. Estas herramientas escanean el código fuente
+            en busca de vulnerabilidades, verifican dependencias de terceros en
+            busca de exploits conocidos, analizan imágenes de contenedores en
+            busca de errores de configuración y prueban aplicaciones en ejecución
+            en busca de fallas en tiempo de ejecución. Cuando se detecta una
+            vulnerabilidad, el pipeline puede fallar automáticamente, bloquear la
+            combinación (merge) o alertar al desarrollador de inmediato,
+            reduciendo drásticamente el costo y el tiempo necesarios para
+            solucionar el problema.
+          </p>
+
+          <h2 id="por-que-importa">Por qué esto importa</h2>
+          <p>
+            Corregir una falla de seguridad en producción o después del
+            despliegue es exponencialmente más costoso, estresante y requiere más
+            tiempo que solucionarla mientras el código está siendo escrito
+            activamente por el desarrollador. Al integrar la seguridad en el flujo
+            de trabajo de desarrollo estándar, las organizaciones mantienen una
+            alta velocidad de entrega sin sacrificar la seguridad. Esto
+            transforma la seguridad de ser un bloqueador externo a convertirse en
+            un habilitador para la entrega rápida y confiable de software.
+          </p>
+
+          <!-- ================================================================ -->
+          <table>
+            <tr>
+              <th>Idea</th>
+              <th>En la práctica</th>
+            </tr>
+            <tr>
+              <td>Automatizar todo</td>
+              <td>Nada de pasos manuales: build, tests, deploy y chequeos de seguridad los hace el pipeline</td>
+            </tr>
+            <tr>
+              <td>Infra como código</td>
+              <td>Los servidores se describen en archivos versionados, no se configuran a mano</td>
+            </tr>
+            <tr>
+              <td>Shift-left security</td>
+              <td>Escaneo de dependencias, secretos y código en cada commit</td>
+            </tr>
+            <tr>
+              <td>Feedback rápido</td>
+              <td>Si algo se rompe o es inseguro, te enterás en minutos, no en semanas</td>
+            </tr>
+          </table>
+
+          <h2 id="ejemplo-concreto">Ejemplo concreto</h2>
+          <p>
+            Considere un flujo de trabajo estándar de GitHub Actions para una
+            aplicación de Node.js. En lugar de esperar una auditoría de seguridad
+            manual semanas más tarde, un enfoque de DevSecOps inyecta una
+            herramienta de Análisis de Composición de Software (SCA) y una
+            herramienta de Pruebas de Seguridad de Aplicaciones Estáticas (SAST)
+            directamente en el pipeline de la solicitud de extracción.
+          </p>
+
+          <pre class="codigo">
+name: Security Pipeline
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Dependency Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+      - name: Run Static Code Analysis
+        run: |
+          npm install
+          npx eslint . --plugin security</pre
+          >
+
+          <p>
+            En este pipeline, cada vez que un desarrollador abre una solicitud de
+            extracción, el código es escaneado automáticamente por Snyk para
+            verificar si los paquetes npm de terceros tienen vulnerabilidades
+            conocidas, y ESLint con complementos de seguridad verifica el código
+            fuente personalizado en busca de patrones riesgosos como vectores de
+            inyección SQL o credenciales codificadas. Si se encuentra una
+            vulnerabilidad de alta gravedad, el pipeline falla, bloqueando la
+            fusión y proporcionando retroalimentación inmediata y procesable al
+            ingeniero antes de que el código llegue a una rama compartida.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="mapa">El mapa</h2>
+
+          <div class="roadmap">
+            <div class="rm-fila">
+              <div class="rm-lado izq"></div>
+              <div class="rm-nodo">Fundamentos</div>
+              <div class="rm-lado der">
+                <span class="rm-tema">Linux</span>
+                <span class="rm-tema">Redes: TCP/IP, DNS, TLS</span>
+                <span class="rm-tema">Scripting: Bash / Python / Go</span>
+                <span class="rm-tema">Git y Pull Requests</span>
+              </div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq">
+                <span class="rm-tema">SSH endurecido</span>
+                <span class="rm-tema">Nginx / Apache: proxy inverso, TLS</span>
+                <span class="rm-tema">Paquetes, usuarios, backups</span>
+              </div>
+              <div class="rm-nodo">Servidores y SO</div>
+              <div class="rm-lado der"></div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq"></div>
+              <div class="rm-nodo">Contenedores</div>
+              <div class="rm-lado der">
+                <span class="rm-tema">Docker: imágenes, volúmenes, redes</span>
+                <span class="rm-tema">Imágenes mínimas: multi-stage, sin root</span>
+                <span class="rm-tema">Registry</span>
+                <span class="rm-tema sec">Escaneo de imágenes (Trivy / Grype)</span>
+              </div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq">
+                <span class="rm-tema">Kubernetes: pods, deployments, ingress</span>
+                <span class="rm-tema">Helm / Kustomize</span>
+                <span class="rm-tema sec">RBAC</span>
+                <span class="rm-tema sec">NetworkPolicies</span>
+                <span class="rm-tema sec">Pod Security</span>
+                <span class="rm-tema sec">Admission control: OPA / Kyverno</span>
+              </div>
+              <div class="rm-nodo">Orquestación</div>
+              <div class="rm-lado der"></div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq"></div>
+              <div class="rm-nodo">Infra como código</div>
+              <div class="rm-lado der">
+                <span class="rm-tema">Terraform / OpenTofu</span>
+                <span class="rm-tema">Ansible</span>
+                <span class="rm-tema sec">Escaneo de IaC (Checkov / tfsec)</span>
+                <span class="rm-tema sec">Política como código (OPA / Sentinel)</span>
+              </div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq">
+                <span class="rm-tema">Jenkins</span>
+                <span class="rm-tema">GitHub Actions / GitLab CI</span>
+                <span class="rm-tema">Blue-green, canary, rolling</span>
+                <span class="rm-tema sec">Gates de seguridad en el pipeline</span>
+                <span class="rm-tema sec">Firma y verificación de artefactos</span>
+              </div>
+              <div class="rm-nodo">CI/CD</div>
+              <div class="rm-lado der"></div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq"></div>
+              <div class="rm-nodo">Seguridad</div>
+              <div class="rm-lado der">
+                <span class="rm-tema">Modelado de amenazas (STRIDE)</span>
+                <span class="rm-tema">AppSec: SAST / DAST / IAST / SCA</span>
+                <span class="rm-tema">Secretos: Vault, SOPS, ESO</span>
+                <span class="rm-tema">Cadena de suministro: SBOM, firma, SLSA</span>
+                <span class="rm-tema">Política como código (OPA / Kyverno)</span>
+                <span class="rm-tema">Gestión de vulnerabilidades (CVSS / EPSS)</span>
+                <span class="rm-tema">Cumplimiento como código (CIS / SOC 2)</span>
+                <span class="rm-tema">Hardening, CIS benchmarks, parcheo</span>
+              </div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq">
+                <span class="rm-tema">Logs: Loki / ELK</span>
+                <span class="rm-tema">Métricas: Prometheus / Grafana</span>
+                <span class="rm-tema">Trazas: OpenTelemetry</span>
+                <span class="rm-tema">SLI / SLO y alertas</span>
+                <span class="rm-tema sec">Runtime security (Falco)</span>
+              </div>
+              <div class="rm-nodo">Observabilidad</div>
+              <div class="rm-lado der"></div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq"></div>
+              <div class="rm-nodo">Cloud</div>
+              <div class="rm-lado der">
+                <span class="rm-tema">IAM</span>
+                <span class="rm-tema">Red: VPC, subredes</span>
+                <span class="rm-tema">Cómputo y almacenamiento</span>
+                <span class="rm-tema">Control de costes</span>
+                <span class="rm-tema sec">Mínimo privilegio (IAM)</span>
+                <span class="rm-tema sec">CSPM / CIEM / CWPP</span>
+              </div>
+            </div>
+
+            <div class="rm-fila">
+              <div class="rm-lado izq">
+                <span class="rm-tema">Ownership, feedback rápido</span>
+                <span class="rm-tema">Shift-left, threat modeling</span>
+                <span class="rm-tema">Postmortems sin culpa</span>
+                <span class="rm-tema">Gestión de incidentes</span>
+              </div>
+              <div class="rm-nodo">Cultura</div>
+              <div class="rm-lado der"></div>
+            </div>
+          </div>
+
+          <!-- ================================================================ -->
+          <h2 id="servidores">Servidores y sistema operativo</h2>
+
+          <ul>
+            <li>
+              <strong>SSH:</strong> conectarse con claves (no con contraseña),
+              deshabilitar el login de root, cambiar el puerto por defecto,
+              usar <code>fail2ban</code>.
+            </li>
+            <li>
+              <strong>Servidores web:</strong> Nginx o Apache como
+              <strong>proxy inverso</strong> delante de tu app, terminación TLS
+              (Let's Encrypt / certbot), balanceo de carga básico.
+            </li>
+            <li>
+              <strong>Gestión del SO:</strong> usuarios y grupos, paquetes
+              (<code>apt</code>, <code>dnf</code>), cron, espacio en disco,
+              sistemas de archivos y puntos de montaje, backups y cómo
+              restaurarlos.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="contenedores">Contenedores</h2>
+
+          <p>
+            Un contenedor empaqueta tu app con todo lo que necesita para correr,
+            así funciona igual en tu máquina y en el servidor.
+          </p>
+          <ul>
+            <li>
+              <strong>Docker:</strong> imágenes y capas, escribir un
+              <code>Dockerfile</code>, <code>build</code> / <code>run</code> /
+              <code>exec</code>, volúmenes para datos que deben sobrevivir,
+              redes entre contenedores, <code>docker compose</code> para levantar
+              varios juntos.
+            </li>
+            <li>
+              <strong>Imágenes bien hechas:</strong> partir de una base mínima
+              (<code>alpine</code>, <code>distroless</code>), builds
+              <strong>multi-stage</strong> para no arrastrar el compilador,
+              correr como usuario sin privilegios, no meter secretos en la
+              imagen.
+            </li>
+            <li>
+              <strong>Seguridad:</strong> subir las imágenes a un
+              <strong>registry</strong> y escanearlas con
+              <code>Trivy</code> o <code>Grype</code> para detectar librerías con
+              vulnerabilidades conocidas (CVEs).
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="orquestacion">Orquestación</h2>
+
+          <p>
+            Cuando tenés muchos contenedores en varios servidores, necesitás algo
+            que decida dónde corre cada uno, los reinicie si se caen y reparta el
+            tráfico. Eso es Kubernetes.
+          </p>
+          <ul>
+            <li>
+              <strong>Kubernetes:</strong> pods, <code>Deployments</code>,
+              <code>Services</code>, <code>Ingress</code>,
+              <code>ConfigMaps</code> y <code>Secrets</code>, escalado.
+            </li>
+            <li>
+              <strong>Empaquetado:</strong> <code>Helm</code> o
+              <code>Kustomize</code> para no repetir YAML en cada entorno.
+            </li>
+            <li>
+              <strong>Seguridad:</strong> <code>RBAC</code> (quién puede hacer
+              qué), <code>NetworkPolicies</code> (qué pod habla con qué pod),
+              <code>Pod Security</code> / admission controllers,
+              <code>Secrets</code> cifrados de verdad.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="iac">Infraestructura como código (IaC)</h2>
+
+          <p>
+            En vez de crear servidores a mano en la consola de la nube, los
+            describís en archivos. Ese archivo se versiona, se revisa en un Pull
+            Request y se puede recrear la infra entera desde cero.
+          </p>
+          <ul>
+            <li>
+              <strong>Aprovisionar:</strong> Terraform (o su fork
+              <strong>OpenTofu</strong>) &mdash; el <em>estado</em>, los módulos,
+              el ciclo <code>plan</code> / <code>apply</code>.
+            </li>
+            <li>
+              <strong>Configurar:</strong> Ansible para dejar un servidor ya
+              creado con los paquetes y la config que corresponde.
+            </li>
+            <li>
+              <strong>Seguridad:</strong> escanear el código de infra con
+              <code>Checkov</code> o <code>tfsec</code> antes de aplicarlo
+              (buckets abiertos, puertos de más, cifrado desactivado).
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="cicd">CI/CD</h2>
+
+          <p>
+            El pipeline: cada push baja el código, lo compila, corre los tests y
+            &mdash; si todo pasa &mdash; lo despliega. El detalle está en la
+            <a href="../herramientas/jenkins.html">página de Jenkins</a>; acá el resumen.
+          </p>
+          <ul>
+            <li>
+              <strong>Herramientas:</strong> Jenkins, GitHub Actions, GitLab CI.
+              Todas resuelven lo mismo: pipeline como código en un archivo del
+              repo.
+            </li>
+            <li>
+              <strong>Estrategias de despliegue:</strong> <em>rolling</em> (de a
+              poco), <em>blue-green</em> (dos entornos, se conmuta), <em>canary</em>
+              (primero a un porcentaje chico de los usuarios).
+            </li>
+            <li>
+              <strong>Seguridad:</strong> el pipeline es el lugar donde se
+              integran todos los chequeos: escaneo de dependencias, de secretos,
+              SAST, escaneo de la imagen. Si algo grave aparece, el build falla y
+              no se despliega.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="seguridad">Seguridad (el "Sec")</h2>
+
+          <p>
+            Esta es la parte que diferencia DevSecOps de DevOps: en vez de una
+            auditoría al final, la seguridad son controles automatizados que
+            corren en cada etapa.
+          </p>
+
+          <h3 id="temario">Temario de seguridad</h3>
+          <p>Las áreas a ir cubriendo, de lo básico a lo avanzado:</p>
+          <ul>
+            <li>
+              <strong>Fundamentos de Seguridad</strong> (Security Fundamentals):
+              triángulo CIA, autenticación, autorización y principios de
+              seguridad.
+            </li>
+            <li>
+              <strong>Seguridad de Redes</strong> (Network Security): redes
+              básicas, firewalls, segmentación y protocolos seguros.
+            </li>
+            <li>
+              <strong>Seguridad de Aplicaciones</strong> (Application Security):
+              OWASP Top Ten, código seguro, prevención de inyecciones y
+              evaluación de vulnerabilidades.
+            </li>
+            <li>
+              <strong>Criptografía</strong> (Cryptography): cifrado simétrico y
+              asimétrico, hashing y gestión de llaves.
+            </li>
+            <li>
+              <strong>Modelado de Amenazas</strong> (Threat Modeling): conceptos,
+              frameworks como STRIDE / PASTA, integración en flujos de trabajo y
+              mapeo de superficies de ataque.
+            </li>
+            <li>
+              <strong>Seguridad de Contenedores</strong> (Container Security):
+              seguridad en Docker, escaneo de imágenes, seguridad en Kubernetes y
+              protección en tiempo de ejecución.
+            </li>
+            <li>
+              <strong>Seguridad en Pipelines</strong> (Pipeline Security):
+              cultura DevSecOps, endurecimiento de pipelines de construcción,
+              gestión de dependencias y pruebas automatizadas.
+            </li>
+            <li>
+              <strong>Seguridad en la Nube</strong> (Cloud Security): gestión de
+              identidades, infraestructura en la nube, planificación
+              multi-región y seguridad de APIs.
+            </li>
+            <li>
+              <strong>Operaciones de Seguridad</strong> (Security Operations):
+              monitoreo y registro, implementación de SIEM, manejo de alertas y
+              herramientas de vulnerabilidad.
+            </li>
+            <li>
+              <strong>Respuesta a Incidentes</strong> (Incident Response): ciclo
+              de respuesta, forensia, estrategias de contención y análisis de
+              causa raíz.
+            </li>
+            <li>
+              <strong>Automatización y Herramientas</strong> (Automation and
+              Tooling): scripting de seguridad, conceptos de SOAR, parcheo
+              automatizado y ecosistema de herramientas.
+            </li>
+            <li>
+              <strong>Cumplimiento y Gobernanza</strong> (Compliance and
+              Governance): mapeo de frameworks, estándares regulatorios,
+              cuantificación de riesgos y preparación para auditorías.
+            </li>
+          </ul>
+
+          <p>Abajo, los pilares que más tocan al pipeline del día a día:</p>
+
+          <h3 id="amenazas">Modelado de amenazas</h3>
+          <p>
+            Antes de construir algo, sentarse a pensar cómo se podría atacar.
+            Se dibuja el flujo de datos del sistema y sobre cada parte se pregunta
+            qué puede salir mal. Un método común es <strong>STRIDE</strong>:
+            suplantación de identidad (<em>Spoofing</em>), manipulación de datos
+            (<em>Tampering</em>), repudio, filtración de información
+            (<em>Information disclosure</em>), denegación de servicio
+            (<em>DoS</em>) y elevación de privilegios. De ahí salen requisitos de
+            seguridad concretos y casos de abuso para testear.
+          </p>
+
+          <h3 id="appsec">AppSec &mdash; análisis del código y la app</h3>
+          <p>Los controles que se enganchan al pipeline:</p>
+          <table>
+            <tr>
+              <th>Sigla</th>
+              <th>Qué revisa</th>
+              <th>Ejemplos</th>
+            </tr>
+            <tr>
+              <td>SCA</td>
+              <td>Tus dependencias (librerías de terceros) con CVEs</td>
+              <td>Trivy, Dependabot, Snyk, OWASP Dependency-Check</td>
+            </tr>
+            <tr>
+              <td>SAST</td>
+              <td>Tu propio código, sin ejecutarlo</td>
+              <td>Semgrep, SonarQube, CodeQL</td>
+            </tr>
+            <tr>
+              <td>DAST</td>
+              <td>La app ya corriendo, atacándola desde afuera</td>
+              <td>OWASP ZAP</td>
+            </tr>
+            <tr>
+              <td>IAST</td>
+              <td>La app instrumentada por dentro mientras se la testea</td>
+              <td>Contrast, agentes del propio APM</td>
+            </tr>
+            <tr>
+              <td>Secretos</td>
+              <td>Tokens y contraseñas comiteadas por error</td>
+              <td>gitleaks, trufflehog</td>
+            </tr>
+          </table>
+          <p>
+            De referencia: el <strong>OWASP Top 10</strong> (las diez familias de
+            fallos web más comunes) y <strong>OWASP ASVS</strong> (una checklist
+            de requisitos de seguridad por nivel).
+          </p>
+
+          <h3 id="cadena-suministro">Cadena de suministro de software</h3>
+          <p>
+            Asegurar que lo que llega a producción es lo que vos compilaste, sin
+            nada inyectado en el medio.
+          </p>
+          <ul>
+            <li>
+              <strong>SBOM</strong> (<em>Software Bill of Materials</em>): la
+              lista completa de todo lo que compone un artefacto. Formatos
+              <code>CycloneDX</code> y <code>SPDX</code>.
+            </li>
+            <li>
+              <strong>Firma y procedencia:</strong> firmar imágenes y artefactos
+              con <code>cosign</code> / <strong>Sigstore</strong>, y adjuntar
+              <em>attestations</em> que dicen cómo y dónde se construyó
+              (<code>in-toto</code>).
+            </li>
+            <li>
+              <strong>SLSA:</strong> un marco con niveles que endurecen
+              progresivamente el proceso de build contra manipulación.
+            </li>
+            <li>
+              <strong>En el pipeline:</strong> fijar (pin) las versiones de las
+              dependencias y de las <em>actions</em>, y verificar las firmas
+              antes de desplegar.
+            </li>
+          </ul>
+
+          <h3 id="secretos">Gestión de secretos</h3>
+          <ul>
+            <li>Nunca en el repo ni en variables de entorno en texto plano.</li>
+            <li>
+              <strong>Almacén central:</strong> <code>Vault</code> (además da
+              secretos <em>dinámicos</em>: credenciales que se crean al momento y
+              expiran solas), o para Kubernetes
+              <code>External Secrets Operator</code>, <code>SOPS</code>,
+              <code>Sealed Secrets</code>.
+            </li>
+            <li>
+              <strong>Rotación:</strong> cambiar los secretos con regularidad y
+              poder revocarlos rápido si se filtran.
+            </li>
+          </ul>
+
+          <h3 id="politica">Política como código</h3>
+          <p>
+            Las reglas de qué está permitido dejan de estar en un documento y
+            pasan a ser código que el pipeline y el clúster evalúan solos: "no se
+            admiten imágenes sin firmar", "ningún bucket público", "todo pod con
+            límites de CPU". Herramientas: <code>OPA</code> / <code>Rego</code>,
+            <code>Gatekeeper</code> y <code>Kyverno</code> (admission control en
+            Kubernetes), <code>Conftest</code>, <code>Sentinel</code>.
+          </p>
+
+          <h3 id="vulns">Gestión de vulnerabilidades</h3>
+          <p>
+            Los escáneres devuelven cientos de hallazgos; el trabajo es
+            priorizarlos y cerrarlos.
+          </p>
+          <ul>
+            <li>
+              <strong>CVE</strong> es el identificador de una vulnerabilidad;
+              <strong>CVSS</strong> su puntaje de gravedad (0&ndash;10);
+              <strong>EPSS</strong> estima la probabilidad de que se explote de
+              verdad.
+            </li>
+            <li>
+              Se prioriza combinando gravedad, exposición (¿es alcanzable desde
+              afuera?) y explotabilidad, no solo el CVSS.
+            </li>
+            <li>
+              <strong>VEX</strong>: un documento que declara "este CVE no me
+              afecta porque el código vulnerable no se usa", para descartar ruido.
+            </li>
+            <li>
+              <strong>SLA de parcheo:</strong> plazos máximos para corregir según
+              gravedad; un lugar central para el seguimiento (p. ej. DefectDojo).
+            </li>
+          </ul>
+
+          <h3 id="cumplimiento">Cumplimiento como código</h3>
+          <p>
+            Traducir los marcos regulatorios (<strong>CIS Benchmarks</strong>,
+            <strong>NIST 800-53</strong>, <strong>ISO 27001</strong>,
+            <strong>PCI-DSS</strong>, <strong>SOC 2</strong>) a chequeos
+            automáticos que además generan la evidencia para la auditoría.
+            Herramientas: <code>OpenSCAP</code>, <code>Chef InSpec</code>,
+            <code>Cloud Custodian</code>.
+          </p>
+
+          <h3 id="hardening">Hardening</h3>
+          <p>
+            Aplicar los <strong>CIS Benchmarks</strong> al SO, a Docker y a
+            Kubernetes; reducir la superficie de ataque (imágenes mínimas, sin
+            shell, sin root); perfiles <code>seccomp</code> / <code>AppArmor</code>;
+            y un proceso de parcheo que no deje CVEs abiertas durante meses.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="observabilidad">Observabilidad</h2>
+
+          <p>Saber qué está pasando en producción sin adivinar. Tres patas:</p>
+          <ul>
+            <li>
+              <strong>Logs:</strong> qué pasó y cuándo. Loki, o el stack ELK
+              (Elasticsearch + Logstash + Kibana).
+            </li>
+            <li>
+              <strong>Métricas:</strong> números en el tiempo (CPU, memoria,
+              requests por segundo, latencia). Prometheus para juntarlas,
+              Grafana para los tableros.
+            </li>
+            <li>
+              <strong>Trazas:</strong> el recorrido de una request por todos los
+              servicios. OpenTelemetry, Jaeger, Tempo.
+            </li>
+            <li>
+              <strong>Alertas y objetivos:</strong> <code>SLI</code> (qué medís),
+              <code>SLO</code> (qué valor querés sostener), alertas cuando se
+              incumple.
+            </li>
+            <li>
+              <strong>Seguridad &mdash; detección y respuesta:</strong>
+              detección en tiempo de ejecución con <code>Falco</code> (basado en
+              <code>eBPF</code>: alerta ante llamadas al sistema sospechosas),
+              auditoría de Kubernetes, y todo el log de seguridad hacia un
+              <strong>SIEM</strong> que corre reglas de detección de amenazas.
+              Cuando salta un incidente: contención, análisis forense y un
+              <em>postmortem</em> sin culpa (ver <a href="#cultura">Cultura</a>).
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="cloud">Cloud</h2>
+
+          <p>
+            Elegir <strong>un</strong> proveedor y aprenderlo bien (AWS, Azure o
+            GCP; los conceptos se trasladan). Lo mínimo:
+          </p>
+          <ul>
+            <li>
+              <strong>IAM:</strong> usuarios, roles y políticas. Es lo primero y
+              lo más fácil de hacer mal.
+            </li>
+            <li>
+              <strong>Red:</strong> VPC / VNet, subredes públicas y privadas,
+              security groups.
+            </li>
+            <li>
+              <strong>Cómputo y almacenamiento:</strong> máquinas virtuales,
+              contenedores gestionados (EKS/AKS/GKE), object storage (S3 y
+              equivalentes), bases de datos gestionadas.
+            </li>
+            <li>
+              <strong>Seguridad:</strong> principio de <strong>mínimo
+              privilegio</strong> en IAM, cifrado en reposo y en tránsito,
+              <strong>CSPM</strong> para detectar configuraciones inseguras
+              (Prowler, ScoutSuite).
+            </li>
+            <li>
+              <strong>Costes:</strong> etiquetar recursos, alertas de gasto,
+              apagar lo que no se usa.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="cultura">Cultura</h2>
+
+          <p>
+            La parte que no es una herramienta. Sin esto, lo demás es solo
+            tooling.
+          </p>
+          <ul>
+            <li>
+              <strong>Ownership:</strong> "you build it, you run it" &mdash; el
+              equipo que hace el código lo opera y responde por él.
+            </li>
+            <li>
+              <strong>Shift-left:</strong> pensar la seguridad y la operabilidad
+              desde el diseño, no al final. <strong>Threat modeling</strong>:
+              sentarse a pensar cómo se podría atacar esto antes de construirlo.
+            </li>
+            <li>
+              <strong>Postmortems sin culpa:</strong> después de un incidente se
+              escribe qué pasó, qué falló del sistema y qué se cambia para que no
+              vuelva a pasar. No se nombra culpables.
+            </li>
+            <li>
+              <strong>Gestión de incidentes:</strong> roles claros (quién
+              comanda, quién comunica), runbooks, guardias rotativas.
+            </li>
+            <li>
+              <strong>Security champions:</strong> una persona por equipo que
+              hace de puente con seguridad, revisa los hallazgos y difunde
+              buenas prácticas. La seguridad no la hace un equipo aparte.
+            </li>
+            <li>
+              <strong>Modelo de madurez:</strong> marcos como <strong>OWASP
+              SAMM</strong> o <strong>DSOMM</strong> para medir en qué nivel está
+              la organización y qué mejorar. La idea de fondo: la seguridad
+              habilita entregar rápido, no bloquea.
+            </li>
+          </ul>
+
+          <p style="text-align:center;">
+            <img src="../gifs/pikachu2.gif" alt="Pikachu animado" width="160" />
+          </p>
+
+        </div>
+      </div>
+
+      <footer data-footer></footer>
+    </div>
+
+    <script src="../js/menu.js"></script>
+    <script src="../js/nieve.js"></script>
+  </body>
+</html>

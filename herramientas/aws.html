@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - AWS</title>
+    <link rel="stylesheet" href="../css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <header data-header></header>
+
+      <div class="cuerpo">
+        <div class="menu-lateral" data-menu></div>
+
+        <div class="contenido apuntes">
+          <h1>AWS</h1>
+
+          <p>
+            <strong>Amazon Web Services</strong> es la nube de Amazon: en vez de
+            comprar servidores, alquilás cómputo, almacenamiento, bases de datos
+            y cientos de servicios más, y pagás por lo que usás
+            (<em>pay-as-you-go</em>). Esta página es un mapa de lo que conviene
+            aprender y en qué orden. Cada servicio enlaza a su documentación
+            oficial.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="que-es">Qué es AWS</h2>
+
+          <p>
+            La nube se suele dividir en tres modelos según cuánto gestiona el
+            proveedor:
+          </p>
+          <table>
+            <tr>
+              <th>Modelo</th>
+              <th>Vos gestionás</th>
+              <th>Ejemplo en AWS</th>
+            </tr>
+            <tr>
+              <td><strong>IaaS</strong> (infraestructura)</td>
+              <td>SO, runtime, tu app</td>
+              <td>EC2 (una máquina virtual)</td>
+            </tr>
+            <tr>
+              <td><strong>PaaS</strong> (plataforma)</td>
+              <td>Solo tu app y su config</td>
+              <td>Elastic Beanstalk, App Runner, RDS</td>
+            </tr>
+            <tr>
+              <td><strong>Serverless / FaaS</strong></td>
+              <td>Solo el código de una función</td>
+              <td>Lambda, S3, DynamoDB, SQS</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Modelo de responsabilidad compartida:</strong> AWS asegura
+            la nube (hardware, red física, hipervisor); vos asegurás lo que
+            ponés <em>en</em> la nube (tus datos, permisos IAM, parches del SO si
+            usás EC2, configuración de los servicios).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="empezar">1. Crear la cuenta y no gastar de más</h2>
+
+          <ul>
+            <li>
+              Registrate en
+              <a href="https://aws.amazon.com/free/" target="_blank" rel="noopener">aws.amazon.com/free</a>.
+              Pide tarjeta pero hay una <strong>capa gratuita</strong>: algunos
+              servicios gratis siempre, otros 12 meses, otros como prueba
+              puntual.
+            </li>
+            <li>
+              <strong>Lo primero, antes de tocar nada:</strong>
+              <ul>
+                <li>Activá <strong>MFA</strong> en la cuenta root.</li>
+                <li>No uses la cuenta root para el día a día: creá un usuario IAM (o mejor, IAM Identity Center) con permisos de admin.</li>
+                <li>Poné un <a href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html" target="_blank" rel="noopener">AWS Budget</a> con alerta por correo a USD 1 y otro a USD 10.</li>
+                <li>Activá las alertas de facturación en CloudWatch.</li>
+              </ul>
+            </li>
+            <li>
+              Reglas para no llevarte una sorpresa: apagá o borrá lo que no uses
+              (sobre todo EC2, NAT Gateway, bases RDS, IPs elásticas sin asociar,
+              balanceadores), y trabajá siempre en <strong>una sola región</strong>.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="regiones">2. Regiones y zonas de disponibilidad</h2>
+
+          <ul>
+            <li>
+              Una <strong>Región</strong> es un conjunto de centros de datos en
+              una zona geográfica (p. ej. <code>us-east-1</code> en Virginia,
+              <code>sa-east-1</code> en São Paulo). Elegís según cercanía a los
+              usuarios, precio y qué servicios hay disponibles.
+            </li>
+            <li>
+              Cada región tiene varias <strong>Zonas de Disponibilidad</strong>
+              (AZ): centros de datos aislados entre sí pero conectados con baja
+              latencia. Repartir tu app en 2&ndash;3 AZ es lo que le da
+              tolerancia a fallos.
+            </li>
+            <li>
+              <strong>Edge locations</strong>: cientos de puntos de presencia que
+              usan CloudFront y Route 53 para acercar el contenido al usuario.
+            </li>
+            <li>
+              Servicios <em>globales</em> (no viven en una región): IAM, Route 53,
+              CloudFront, WAF.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="cli">3. Consola, CLI y SDK</h2>
+
+          <ul>
+            <li>
+              <strong>Consola web:</strong> para explorar y aprender. No para
+              cosas repetibles.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/cli/latest/userguide/" target="_blank" rel="noopener">AWS CLI</a>:</strong>
+              instalás, corrés <code>aws configure</code> (o mejor
+              <code>aws configure sso</code>) y ya podés scriptear todo.
+            </li>
+            <li>
+              <strong>SDK:</strong> librerías para cada lenguaje
+              (<code>boto3</code> en Python, <code>aws-sdk</code> en JS, etc.)
+              para hablar con AWS desde tu código.
+            </li>
+            <li>
+              <strong>CloudShell:</strong> una terminal con la CLI ya
+              configurada, dentro de la consola.
+            </li>
+          </ul>
+          <div class="codigo">aws configure sso           # login moderno con IAM Identity Center
+aws sts get-caller-identity # ¿quién soy? útil para verificar credenciales
+aws s3 ls                   # lista tus buckets</div>
+
+          <!-- ================================================================ -->
+          <h2 id="iam">4. IAM: identidad y permisos</h2>
+
+          <p>
+            <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/" target="_blank" rel="noopener">IAM</a>
+            (Identity and Access Management) controla <em>quién</em> puede hacer
+            <em>qué</em> sobre <em>qué recurso</em>. Es lo más importante de AWS y
+            lo más fácil de hacer mal.
+          </p>
+          <table>
+            <tr>
+              <th>Concepto</th>
+              <th>Qué es</th>
+            </tr>
+            <tr>
+              <td>Usuario</td>
+              <td>Una identidad permanente para una persona o una app (evitá las claves de acceso largas).</td>
+            </tr>
+            <tr>
+              <td>Grupo</td>
+              <td>Un conjunto de usuarios al que se le adjuntan políticas.</td>
+            </tr>
+            <tr>
+              <td><strong>Rol</strong></td>
+              <td>Identidad <em>temporal</em> que asume un servicio (p. ej. una EC2) o un usuario. La forma correcta de dar permisos a aplicaciones.</td>
+            </tr>
+            <tr>
+              <td>Política</td>
+              <td>Documento JSON con <code>Effect</code> (Allow/Deny), <code>Action</code>, <code>Resource</code> y <code>Condition</code>.</td>
+            </tr>
+            <tr>
+              <td>IAM Identity Center</td>
+              <td>El sucesor de los usuarios IAM para personas: login único, credenciales temporales, integra con tu proveedor de identidad.</td>
+            </tr>
+          </table>
+          <p><strong>Buenas prácticas:</strong></p>
+          <ul>
+            <li>Mínimo privilegio: empezá sin permisos y agregá solo lo que haga falta.</li>
+            <li>Roles en vez de claves de acceso siempre que se pueda.</li>
+            <li>MFA para todo lo humano.</li>
+            <li>Nada de credenciales en el código: usá roles, o Secrets Manager.</li>
+            <li>Revisá con <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer.html" target="_blank" rel="noopener">IAM Access Analyzer</a> qué recursos quedaron expuestos.</li>
+          </ul>
+          <div class="codigo">{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject"],
+    "Resource": "arn:aws:s3:::mi-bucket/*"
+  }]
+}</div>
+
+          <!-- ================================================================ -->
+          <h2 id="red">5. Red: VPC y compañía</h2>
+
+          <p>
+            La
+            <a href="https://docs.aws.amazon.com/vpc/latest/userguide/" target="_blank" rel="noopener">VPC</a>
+            (Virtual Private Cloud) es tu red privada dentro de AWS. Casi todo lo
+            demás vive dentro de una.
+          </p>
+          <ul>
+            <li><strong>Subredes:</strong> trozos de la VPC atados a una AZ. <em>Públicas</em> (con ruta a internet) o <em>privadas</em>.</li>
+            <li><strong>Internet Gateway:</strong> la puerta a internet de las subredes públicas.</li>
+            <li><strong>NAT Gateway:</strong> deja que las subredes privadas salgan a internet sin ser alcanzables desde afuera. <em>Cuesta plata por hora y por tráfico</em> &mdash; ojo con esto.</li>
+            <li><strong>Route tables:</strong> a dónde va cada paquete.</li>
+            <li><strong>Security Groups:</strong> firewall <em>con estado</em> a nivel de recurso (p. ej. una EC2). Solo reglas de permitir.</li>
+            <li><strong>Network ACL:</strong> firewall <em>sin estado</em> a nivel de subred. Permitir y denegar.</li>
+            <li><strong><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/" target="_blank" rel="noopener">Elastic Load Balancing</a>:</strong> reparte tráfico (ALB para HTTP, NLB para TCP).</li>
+            <li><strong><a href="https://docs.aws.amazon.com/route53/" target="_blank" rel="noopener">Route 53</a>:</strong> DNS gestionado + chequeos de salud + enrutamiento por latencia/geografía.</li>
+            <li><strong><a href="https://docs.aws.amazon.com/cloudfront/" target="_blank" rel="noopener">CloudFront</a>:</strong> CDN; cachea contenido cerca del usuario.</li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="computo">6. Cómputo</h2>
+
+          <table>
+            <tr>
+              <th>Servicio</th>
+              <th>Cuándo usarlo</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/ec2/" target="_blank" rel="noopener">EC2</a>
+              </td>
+              <td>Máquinas virtuales. Control total, vos parcheás el SO. Tipos de instancia según CPU/RAM/red; opciones de compra: On-Demand, Savings Plans, Spot (barato pero te la pueden quitar).</td>
+            </tr>
+            <tr>
+              <td>Auto Scaling Group</td>
+              <td>Subir y bajar la cantidad de EC2 según demanda o salud.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/lambda/" target="_blank" rel="noopener">Lambda</a>
+              </td>
+              <td>Ejecutar una función ante un evento (HTTP vía API Gateway, archivo nuevo en S3, mensaje en cola). Sin servidores que gestionar, pagás por invocación y milisegundos.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/apprunner/latest/dg/" target="_blank" rel="noopener">App Runner</a>
+                /
+                <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/" target="_blank" rel="noopener">Elastic Beanstalk</a>
+              </td>
+              <td>Subir una app web y que AWS se encargue de servidores, balanceo y escalado.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="almacenamiento">7. Almacenamiento</h2>
+
+          <table>
+            <tr>
+              <th>Servicio</th>
+              <th>Tipo</th>
+              <th>Para qué</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/s3/" target="_blank" rel="noopener">S3</a>
+              </td>
+              <td>Objetos</td>
+              <td>Archivos, backups, hosting estático, data lakes. Clases de almacenamiento (Standard, Infrequent Access, Glacier) según cuánto lo consultás. <strong>Por defecto todo privado</strong>: cuidá no abrir un bucket sin querer.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/ebs/" target="_blank" rel="noopener">EBS</a>
+              </td>
+              <td>Bloque</td>
+              <td>El &quot;disco duro&quot; de una EC2. Vive en una AZ. Hacé snapshots para backup.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/efs/latest/ug/" target="_blank" rel="noopener">EFS</a>
+              </td>
+              <td>Archivos (NFS)</td>
+              <td>Un sistema de archivos compartido entre varias EC2 a la vez.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="bases">8. Bases de datos</h2>
+
+          <table>
+            <tr>
+              <th>Servicio</th>
+              <th>Qué es</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/rds/" target="_blank" rel="noopener">RDS</a>
+              </td>
+              <td>Bases relacionales gestionadas: PostgreSQL, MySQL, MariaDB, SQL Server, Oracle. AWS hace backups, parches y réplicas. Multi-AZ para alta disponibilidad.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/" target="_blank" rel="noopener">Aurora</a>
+              </td>
+              <td>Versión de AWS de MySQL/PostgreSQL, más rápida y con opción serverless.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/dynamodb/" target="_blank" rel="noopener">DynamoDB</a>
+              </td>
+              <td>NoSQL clave-valor totalmente gestionada, escala sola, latencia de milisegundos. Muy usada con Lambda.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/elasticache/" target="_blank" rel="noopener">ElastiCache</a>
+              </td>
+              <td>Redis o Memcached gestionado, para cachear y bajar carga de la base.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="contenedores">9. Contenedores y serverless</h2>
+
+          <ul>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/" target="_blank" rel="noopener">ECR</a>:</strong>
+              registro privado de imágenes Docker (ver <a href="docker.html">Docker</a>).
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/ecs/" target="_blank" rel="noopener">ECS</a>:</strong>
+              orquestador propio de AWS, más simple que Kubernetes.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/eks/latest/userguide/" target="_blank" rel="noopener">EKS</a>:</strong>
+              Kubernetes gestionado, si ya sabés Kubernetes o necesitás su ecosistema.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html" target="_blank" rel="noopener">Fargate</a>:</strong>
+              corré contenedores en ECS o EKS <em>sin</em> gestionar las EC2 de abajo.
+            </li>
+            <li>
+              <strong>Serverless típico:</strong> API Gateway + Lambda + DynamoDB,
+              con SQS/SNS/EventBridge para eventos y colas.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="iac">10. Infraestructura como código</h2>
+
+          <p>
+            No crees recursos a mano en la consola para nada que quieras
+            conservar. Descríbelos en archivos versionados (ver también
+            <a href="../DevSecOps/overview.html#iac">IaC en DevSecOps</a>).
+          </p>
+          <ul>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/cloudformation/" target="_blank" rel="noopener">CloudFormation</a>:</strong>
+              el servicio nativo. Plantillas YAML/JSON; AWS gestiona el estado.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/cdk/v2/guide/home.html" target="_blank" rel="noopener">AWS CDK</a>:</strong>
+              defines la infra en un lenguaje de verdad (TypeScript, Python...) y
+              compila a CloudFormation.
+            </li>
+            <li>
+              <strong><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs" target="_blank" rel="noopener">Terraform</a>:</strong>
+              multi-nube, el más pedido en ofertas. Tiene su
+              <a href="../certificaciones.html#base">certificación Associate</a>.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/" target="_blank" rel="noopener">AWS SAM</a>:</strong>
+              CloudFormation simplificado para serverless.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="cicd">11. CI/CD en AWS</h2>
+
+          <p>
+            Podés usar <a href="jenkins.html">Jenkins</a> o GitHub Actions
+            apuntando a AWS, o los servicios propios:
+          </p>
+          <ul>
+            <li><strong>CodeCommit</strong> &mdash; repos Git gestionados.</li>
+            <li><strong><a href="https://docs.aws.amazon.com/codebuild/latest/userguide/" target="_blank" rel="noopener">CodeBuild</a></strong> &mdash; compila y corre tests.</li>
+            <li><strong>CodeDeploy</strong> &mdash; despliega a EC2, ECS o Lambda (rolling, blue-green).</li>
+            <li><strong><a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/" target="_blank" rel="noopener">CodePipeline</a></strong> &mdash; orquesta las etapas anteriores.</li>
+          </ul>
+          <p>
+            Para que el pipeline hable con AWS sin claves largas: <strong>OIDC</strong>
+            entre GitHub Actions y un rol IAM.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="observabilidad">12. Observabilidad</h2>
+
+          <ul>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/cloudwatch/" target="_blank" rel="noopener">CloudWatch</a>:</strong>
+              métricas, logs, alarmas y dashboards. El centro de todo.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/" target="_blank" rel="noopener">CloudTrail</a>:</strong>
+              registro de <em>quién llamó a qué API</em> y cuándo. Auditoría y
+              forense. Activalo en todas las regiones.
+            </li>
+            <li>
+              <strong><a href="https://docs.aws.amazon.com/xray/latest/devguide/" target="_blank" rel="noopener">X-Ray</a>:</strong>
+              trazas distribuidas: seguir una request por todos los servicios.
+            </li>
+            <li>
+              <strong>AWS Config:</strong> historial del estado de configuración
+              de cada recurso y reglas de cumplimiento.
+            </li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="seguridad">13. Seguridad</h2>
+
+          <p>Además de IAM bien hecho:</p>
+          <table>
+            <tr>
+              <th>Servicio</th>
+              <th>Para qué</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/kms/latest/developerguide/" target="_blank" rel="noopener">KMS</a>
+              </td>
+              <td>Gestión de claves de cifrado. Cifrá S3, EBS, RDS, secretos.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/" target="_blank" rel="noopener">Secrets Manager</a>
+              </td>
+              <td>Guardar y rotar credenciales, tokens, cadenas de conexión. (Parameter Store es la alternativa más simple y barata.)</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/guardduty/latest/ug/" target="_blank" rel="noopener">GuardDuty</a>
+              </td>
+              <td>Detección de amenazas: analiza CloudTrail, DNS y flujos de red buscando actividad rara.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/securityhub/latest/userguide/" target="_blank" rel="noopener">Security Hub</a>
+              </td>
+              <td>Tablero central que junta hallazgos y chequea contra estándares (CIS, AWS FSBP).</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/waf/latest/developerguide/" target="_blank" rel="noopener">WAF</a> / Shield
+              </td>
+              <td>Firewall de aplicaciones web y protección anti-DDoS delante de CloudFront/ALB.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://docs.aws.amazon.com/inspector/latest/user/" target="_blank" rel="noopener">Inspector</a>
+              </td>
+              <td>Escaneo de vulnerabilidades en EC2, imágenes de ECR y Lambda.</td>
+            </tr>
+          </table>
+          <p>
+            Reglas de oro: cifrado en reposo y en tránsito por defecto, nada de
+            buckets públicos, CloudTrail siempre encendido, y raíz con MFA y sin
+            claves de acceso.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="costes">14. Control de costes</h2>
+
+          <ul>
+            <li><strong><a href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html" target="_blank" rel="noopener">AWS Budgets</a>:</strong> alertas cuando el gasto proyectado supera un umbral.</li>
+            <li><strong>Cost Explorer:</strong> ver en qué se va la plata, por servicio y etiqueta.</li>
+            <li><strong><a href="https://calculator.aws/" target="_blank" rel="noopener">Pricing Calculator</a>:</strong> estimar antes de desplegar.</li>
+            <li><strong>Etiquetá todo</strong> (<code>Project</code>, <code>Env</code>, <code>Owner</code>) para poder filtrar el gasto.</li>
+            <li>Lo que más sorprende en la factura: NAT Gateway, tráfico de salida a internet, EC2 y RDS encendidas sin usar, snapshots viejos, IPs elásticas sin asociar.</li>
+            <li>Ahorro: Savings Plans / Reserved Instances para carga estable; Spot para trabajos tolerantes a interrupción.</li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="well-architected">15. Well-Architected Framework</h2>
+
+          <p>
+            La guía de AWS de cómo debería estar hecha una arquitectura, en seis
+            pilares. Vale la pena leerla entera:
+            <a href="https://aws.amazon.com/architecture/well-architected/" target="_blank" rel="noopener">Well-Architected</a>.
+          </p>
+          <ol>
+            <li><strong>Excelencia operativa</strong> &mdash; automatizar, medir, mejorar.</li>
+            <li><strong>Seguridad</strong> &mdash; mínimo privilegio, trazabilidad, cifrado.</li>
+            <li><strong>Fiabilidad</strong> &mdash; recuperarse de fallos, escalar horizontalmente.</li>
+            <li><strong>Eficiencia del rendimiento</strong> &mdash; usar el servicio adecuado al problema.</li>
+            <li><strong>Optimización de costes</strong> &mdash; no pagar de más.</li>
+            <li><strong>Sostenibilidad</strong> &mdash; minimizar el impacto ambiental.</li>
+          </ol>
+
+          <!-- ================================================================ -->
+          <h2 id="ruta">Ruta de aprendizaje recomendada</h2>
+
+          <ol>
+            <li>Crear la cuenta, asegurar la raíz, poner un Budget.</li>
+            <li>IAM: usuarios, grupos, roles y políticas. Practicar mínimo privilegio.</li>
+            <li>Instalar la CLI y hacer todo desde ahí en paralelo a la consola.</li>
+            <li>Levantar una EC2 en una VPC propia, con su Security Group, y entrar por SSH.</li>
+            <li>Servir un sitio estático desde S3 + CloudFront.</li>
+            <li>Una app web chica: EC2 o Elastic Beanstalk + RDS, o bien API Gateway + Lambda + DynamoDB.</li>
+            <li>Meter todo lo anterior en CloudFormation o Terraform y recrearlo desde cero.</li>
+            <li>Añadir un pipeline (CodePipeline o GitHub Actions) que despliegue en cada push.</li>
+            <li>Sumar CloudWatch (alarmas), CloudTrail y un Budget con alertas.</li>
+            <li>Repasar los seis pilares del Well-Architected sobre lo que construiste.</li>
+          </ol>
+          <p>
+            Después de esto, el examen
+            <a href="../certificaciones.html#cloud">AWS Solutions Architect Associate</a>
+            (o Cloud Practitioner si querés algo más liviano primero) queda a tiro.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="comandos">Comandos útiles de la CLI</h2>
+
+          <div class="codigo"># identidad y config
+aws configure sso
+aws sts get-caller-identity
+aws configure list-profiles
+
+# S3
+aws s3 ls
+aws s3 mb s3://mi-bucket-unico-123
+aws s3 cp archivo.txt s3://mi-bucket-unico-123/
+aws s3 sync ./sitio s3://mi-bucket-unico-123/ --delete
+
+# EC2
+aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId,State.Name]" --output table
+aws ec2 stop-instances --instance-ids i-0123456789abcdef0
+aws ec2 describe-regions --query "Regions[].RegionName" --output text
+
+# IAM
+aws iam list-users
+aws iam list-roles --query "Roles[].RoleName"
+
+# logs
+aws logs tail /aws/lambda/mi-funcion --follow
+
+# costes (necesita permiso ce:GetCostAndUsage)
+aws ce get-cost-and-usage --time-period Start=2026-08-01,End=2026-08-31 \
+  --granularity MONTHLY --metrics "UnblendedCost"</div>
+
+          <!-- ================================================================ -->
+          <h2 id="recursos">Recursos para aprender</h2>
+
+          <ul>
+            <li><a href="https://skillbuilder.aws/" target="_blank" rel="noopener">AWS Skill Builder</a> &mdash; cursos oficiales gratuitos (incluye el de Cloud Practitioner).</li>
+            <li><a href="https://aws.amazon.com/training/digital/" target="_blank" rel="noopener">AWS Digital Training</a> &mdash; catálogo de formación digital gratuita.</li>
+            <li><a href="https://workshops.aws/" target="_blank" rel="noopener">AWS Workshops</a> &mdash; laboratorios guiados paso a paso.</li>
+            <li><a href="https://aws.amazon.com/getting-started/hands-on/" target="_blank" rel="noopener">Hands-on Tutorials</a> &mdash; tutoriales cortos por servicio.</li>
+            <li><a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener">Documentación oficial</a> &mdash; la referencia de todo.</li>
+            <li><a href="https://aws.amazon.com/architecture/" target="_blank" rel="noopener">AWS Architecture Center</a> &mdash; patrones y arquitecturas de referencia.</li>
+            <li><a href="https://aws.amazon.com/architecture/well-architected/" target="_blank" rel="noopener">Well-Architected Framework</a> &mdash; cómo hacerlo bien.</li>
+            <li><a href="https://aws.amazon.com/certification/" target="_blank" rel="noopener">AWS Certifications</a> &mdash; ruta de exámenes (ver también <a href="../certificaciones.html">Certificaciones</a>).</li>
+            <li><a href="https://calculator.aws/" target="_blank" rel="noopener">Pricing Calculator</a> &mdash; estimar la factura antes de gastar.</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer data-footer></footer>
+    </div>
+
+    <script src="../js/menu.js"></script>
+    <script src="../js/nieve.js"></script>
+  </body>
+</html>

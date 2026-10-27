@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - Certificaciones DevSecOps</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <header data-header></header>
+
+      <div class="cuerpo">
+        <div class="menu-lateral" data-menu></div>
+
+        <div class="contenido apuntes">
+          <h1>Certificaciones para DevSecOps</h1>
+
+          <p>
+            DevSecOps es un rol que cruza tres mundos: desarrollo,
+            operaciones / cloud y seguridad. No hay una única certificación
+            &quot;de DevSecOps&quot; que te habilite; lo normal es apilar varias
+            de cada área. Cada enlace va a la página oficial de la
+            certificación.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="hace-falta">¿Hace falta certificarse?</h2>
+
+          <p>
+            No en el sentido estricto: nadie te pide un papel para trabajar de
+            esto. Sirven para dos cosas concretas:
+          </p>
+          <ul>
+            <li>
+              <strong>Pasar filtros de RR.HH.</strong> y llegar a la entrevista
+              técnica, sobre todo en empresas grandes o consultoras.
+            </li>
+            <li>
+              <strong>Estudiar con un temario ordenado</strong> en vez de saltar
+              de tutorial en tutorial.
+            </li>
+          </ul>
+          <p>
+            Lo que te <em>contratan</em> es la habilidad práctica con pipelines,
+            infra como código y herramientas de seguridad
+            (ver <a href="DevSecOps/overview.html">la página de DevSecOps</a>).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="presupuesto">Con presupuesto ajustado</h2>
+
+          <p>
+            Si no podés pagar muchas, este es el orden por
+            <strong>relación valor / precio</strong>. Los precios son
+            aproximados y del examen (sin cursos), en dólares.
+          </p>
+
+          <h3>Gratis &mdash; hacé esto sí o sí, antes que cualquier examen</h3>
+          <ul>
+            <li>
+              <a href="https://portswigger.net/web-security" target="_blank" rel="noopener">PortSwigger Web Security Academy</a>
+              &mdash; labs de seguridad web.
+            </li>
+            <li>
+              <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top 10</a>
+              y
+              <a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank" rel="noopener">ASVS</a>.
+            </li>
+            <li>
+              Un pipeline propio en
+              <a href="https://docs.github.com/actions" target="_blank" rel="noopener">GitHub Actions</a>
+              con SAST + SCA + escaneo de secretos. Esto lo mostrás en la
+              entrevista y vale más que un título.
+            </li>
+          </ul>
+
+          <h3>Prioridad 1 &mdash; baratas y con buena señal (~USD 170 las dos)</h3>
+          <ul>
+            <li>
+              <a href="https://www.hashicorp.com/certification/terraform-associate" target="_blank" rel="noopener">HashiCorp Terraform Associate</a>
+              &mdash; ~USD 70. Infra como código; universal y muy pedida.
+            </li>
+            <li>
+              <a href="https://portswigger.net/web-security/certification" target="_blank" rel="noopener">Burp Suite Certified Practitioner (BSCP)</a>
+              &mdash; ~USD 99. Práctica; la parte &quot;Sec&quot; sin gastar de más.
+            </li>
+          </ul>
+
+          <h3>Prioridad 2 &mdash; una sola, según tu objetivo</h3>
+          <ul>
+            <li>
+              <strong>Si apuntás a Azure:</strong>
+              <a href="https://learn.microsoft.com/es-es/credentials/certifications/azure-security-engineer/" target="_blank" rel="noopener">Microsoft AZ-500</a>
+              &mdash; ~USD 165. La cert de seguridad cloud más barata.
+            </li>
+            <li>
+              <strong>Si apuntás a AWS:</strong>
+              <a href="https://aws.amazon.com/es/certification/certified-security-specialty/" target="_blank" rel="noopener">AWS Security &ndash; Specialty</a>
+              &mdash; ~USD 300.
+            </li>
+            <li>
+              <strong>Si te falta la parte de operaciones:</strong>
+              <a href="https://www.cncf.io/training/certification/cka/" target="_blank" rel="noopener">CKA</a>
+              &mdash; ~USD 300&ndash;450 (mirá ofertas de la Linux Foundation).
+            </li>
+          </ul>
+
+          <h3>Dejá para después (o que las pague la empresa)</h3>
+          <ul>
+            <li>
+              <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a>
+              &mdash; ~USD 400. Solo si un filtro de RR.HH. te la exige;
+              si no, estudiá los fundamentos por tu cuenta.
+            </li>
+            <li>
+              <a href="https://www.cncf.io/training/certification/cks/" target="_blank" rel="noopener">CKS</a>
+              &mdash; ~USD 450 y necesita CKA vigente (unos USD 750&ndash;900 en total).
+            </li>
+            <li>
+              <a href="https://www.practical-devsecops.com/certified-devsecops-professional/" target="_blank" rel="noopener">Certified DevSecOps Professional (CDP)</a>
+              &mdash; buenísima, pero se compra con curso.
+            </li>
+            <li>
+              <a href="https://www.sans.org/cyber-security-courses/cloud-security-devsecops-automation/" target="_blank" rel="noopener">SANS SEC540 / GIAC GCSA</a>
+              &mdash; USD 8k+. Casi siempre la paga el empleador.
+            </li>
+          </ul>
+
+          <p>
+            <strong>Si solo podés pagar una ahora:</strong>
+            <a href="https://www.hashicorp.com/certification/terraform-associate" target="_blank" rel="noopener">Terraform Associate</a>
+            (~USD 70). Es la más barata, no caduca el temario tan rápido y
+            aparece en casi todas las ofertas de DevOps / DevSecOps.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="ruta-corta">Ruta corta recomendada</h2>
+
+          <p>Si tuviera que elegir un solo camino, sería este orden:</p>
+          <ol>
+            <li>
+              <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a>
+              &mdash; fundamentos de seguridad.
+            </li>
+            <li>
+              <a href="https://www.hashicorp.com/certification/terraform-associate" target="_blank" rel="noopener">HashiCorp Terraform Associate</a>
+              &mdash; infraestructura como código.
+            </li>
+            <li>
+              <a href="https://learn.microsoft.com/es-es/credentials/certifications/azure-security-engineer/" target="_blank" rel="noopener">Microsoft AZ-500</a>
+              o
+              <a href="https://aws.amazon.com/es/certification/certified-security-specialty/" target="_blank" rel="noopener">AWS Security Specialty</a>
+              &mdash; seguridad en la nube.
+            </li>
+            <li>
+              <a href="https://www.cncf.io/training/certification/cks/" target="_blank" rel="noopener">CKS</a>
+              &mdash; seguridad en Kubernetes (requiere CKA vigente).
+            </li>
+            <li>
+              <a href="https://www.practical-devsecops.com/certified-devsecops-professional/" target="_blank" rel="noopener">Certified DevSecOps Professional (CDP)</a>
+              &mdash; el pegamento entre todo lo anterior.
+            </li>
+          </ol>
+
+          <!-- ================================================================ -->
+          <h2 id="base">1. Base / fundamentos</h2>
+
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a>
+              </td>
+              <td>Fundamentos de seguridad: amenazas, criptografía, IAM, redes.</td>
+              <td>El estándar de entrada. Multiple choice, sin prerrequisitos.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.hashicorp.com/certification/terraform-associate" target="_blank" rel="noopener">HashiCorp Terraform Associate</a>
+              </td>
+              <td>Infraestructura como código con Terraform / OpenTofu.</td>
+              <td>Barata y muy práctica. Examen online de ~1 h.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/" target="_blank" rel="noopener">Linux Foundation Certified SysAdmin (LFCS)</a>
+              </td>
+              <td>Administración de Linux desde la terminal.</td>
+              <td>Opcional si ya te movés bien en Linux. Examen práctico.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.giac.org/certifications/security-essentials-gsec/" target="_blank" rel="noopener">GIAC GSEC</a>
+              </td>
+              <td>Seguridad general, más profunda que Security+.</td>
+              <td>Cara (vía cursos SANS). Suele pagarla la empresa.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="cloud">2. Cloud</h2>
+
+          <p>
+            Elegí <strong>un</strong> proveedor según el mercado al que apuntes y
+            hacé la ruta base &rarr; seguridad. Los conceptos se trasladan.
+          </p>
+
+          <h3>AWS</h3>
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://aws.amazon.com/es/certification/certified-solutions-architect-associate/" target="_blank" rel="noopener">AWS Solutions Architect Associate</a>
+              </td>
+              <td>Diseñar arquitecturas en AWS.</td>
+              <td>Buen punto de partida en AWS.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://aws.amazon.com/es/certification/certified-security-specialty/" target="_blank" rel="noopener">AWS Security &ndash; Specialty</a>
+              </td>
+              <td>IAM, cifrado, detección, respuesta a incidentes en AWS.</td>
+              <td>La más relevante para el &quot;Sec&quot; en AWS.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://aws.amazon.com/es/certification/certified-devops-engineer-professional/" target="_blank" rel="noopener">AWS DevOps Engineer &ndash; Professional</a>
+              </td>
+              <td>CI/CD, IaC y automatización en AWS.</td>
+              <td>Nivel profesional; conviene tener una Associate antes.</td>
+            </tr>
+          </table>
+
+          <h3>Azure</h3>
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://learn.microsoft.com/es-es/credentials/certifications/azure-administrator/" target="_blank" rel="noopener">Microsoft AZ-104 (Azure Administrator)</a>
+              </td>
+              <td>Administración de recursos en Azure.</td>
+              <td>Base para AZ-500.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://learn.microsoft.com/es-es/credentials/certifications/azure-security-engineer/" target="_blank" rel="noopener">Microsoft AZ-500 (Azure Security Engineer)</a>
+              </td>
+              <td>Identidad, protección de plataforma, datos y operaciones de seguridad.</td>
+              <td>La opción &quot;Sec&quot; en Azure.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://learn.microsoft.com/es-es/credentials/certifications/devops-engineer/" target="_blank" rel="noopener">Microsoft AZ-400 (DevOps Engineer Expert)</a>
+              </td>
+              <td>CI/CD, IaC y prácticas DevOps con Azure DevOps / GitHub.</td>
+              <td>Requiere AZ-104 o AZ-204 aprobada.</td>
+            </tr>
+          </table>
+
+          <h3>Google Cloud</h3>
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://cloud.google.com/learn/certification/cloud-engineer" target="_blank" rel="noopener">Associate Cloud Engineer</a>
+              </td>
+              <td>Desplegar y operar en GCP.</td>
+              <td>Punto de partida en GCP.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://cloud.google.com/learn/certification/cloud-security-engineer" target="_blank" rel="noopener">Professional Cloud Security Engineer</a>
+              </td>
+              <td>IAM, red segura, protección de datos y cumplimiento en GCP.</td>
+              <td>La opción &quot;Sec&quot; en Google Cloud.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="kubernetes">3. Contenedores y Kubernetes</h2>
+
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.cncf.io/training/certification/kcna/" target="_blank" rel="noopener">KCNA (Kubernetes and Cloud Native Associate)</a>
+              </td>
+              <td>Conceptos de Kubernetes y ecosistema cloud native.</td>
+              <td>Entrada teórica; opcional si vas directo a CKA.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.cncf.io/training/certification/cka/" target="_blank" rel="noopener">CKA (Certified Kubernetes Administrator)</a>
+              </td>
+              <td>Operar un clúster de Kubernetes.</td>
+              <td>Prerrequisito de facto y de CKS. Examen práctico en terminal.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.cncf.io/training/certification/cks/" target="_blank" rel="noopener">CKS (Certified Kubernetes Security Specialist)</a>
+              </td>
+              <td>Endurecer clústeres: RBAC, NetworkPolicies, admission control, runtime.</td>
+              <td>La más &quot;DevSecOps&quot; del ecosistema CNCF. Requiere CKA vigente.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="devsecops">4. DevSecOps específico</h2>
+
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.practical-devsecops.com/certified-devsecops-professional/" target="_blank" rel="noopener">Certified DevSecOps Professional (CDP)</a>
+              </td>
+              <td>Integrar SAST / DAST / SCA / secretos en un pipeline real.</td>
+              <td>Practical DevSecOps. Examen hands-on de 12 h. Precio accesible.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.practical-devsecops.com/certified-devsecops-expert/" target="_blank" rel="noopener">Certified DevSecOps Expert (CDE)</a>
+              </td>
+              <td>Nivel avanzado: threat modeling, IaC security, cadena de suministro.</td>
+              <td>Continuación de CDP.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.sans.org/cyber-security-courses/cloud-security-devsecops-automation/" target="_blank" rel="noopener">SANS SEC540</a>
+                &rarr;
+                <a href="https://www.giac.org/certifications/cloud-security-automation-gcsa/" target="_blank" rel="noopener">GIAC GCSA</a>
+              </td>
+              <td>Automatización de seguridad en cloud y CI/CD.</td>
+              <td>El estándar &quot;de oro&quot;, pero muy caro (USD 8k+). Suele pagarla la empresa.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.eccouncil.org/train-certify/certified-devsecops-engineer-ecde/" target="_blank" rel="noopener">EC-Council Certified DevSecOps Engineer (E|CDE)</a>
+              </td>
+              <td>Prácticas DevSecOps a lo largo del ciclo de vida.</td>
+              <td>Existe, pero menos valorada que CDP/CDE o GCSA.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="appsec">5. AppSec</h2>
+
+          <table>
+            <tr>
+              <th>Certificación</th>
+              <th>Qué acredita</th>
+              <th>Notas</th>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://portswigger.net/web-security" target="_blank" rel="noopener">PortSwigger Web Security Academy</a>
+              </td>
+              <td>Labs de vulnerabilidades web (OWASP Top 10 en la práctica).</td>
+              <td>Gratis. No es certificación, pero es el mejor entrenamiento previo.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://portswigger.net/web-security/certification" target="_blank" rel="noopener">Burp Suite Certified Practitioner (BSCP)</a>
+              </td>
+              <td>Explotación práctica de aplicaciones web con Burp.</td>
+              <td>Examen práctico. Muy valorada en AppSec.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.offsec.com/courses/pen-200/" target="_blank" rel="noopener">OffSec OSCP</a>
+              </td>
+              <td>Pentesting práctico de red y sistemas.</td>
+              <td>Opcional y más pesada; solo si querés perfil ofensivo.</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top 10</a>
+                /
+                <a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank" rel="noopener">ASVS</a>
+              </td>
+              <td>Referencia de fallos web comunes y checklist de requisitos.</td>
+              <td>No es certificación: es lectura obligada.</td>
+            </tr>
+          </table>
+
+          <!-- ================================================================ -->
+          <h2 id="mas-que-titulo">Lo que pesa más que el título</h2>
+
+          <p>
+            En la entrevista técnica y en el día a día, esto vale más que
+            cualquier certificado:
+          </p>
+          <ul>
+            <li>
+              Un pipeline propio (GitHub Actions o Jenkins) que integre
+              <strong>SAST, SCA y escaneo de secretos</strong> y falle el build
+              ante un hallazgo grave.
+            </li>
+            <li>
+              Gestión de secretos con <strong>Vault</strong>, policy as code
+              (<strong>OPA / Kyverno</strong>) y firmado de artefactos
+              (<strong>Sigstore / cosign</strong>).
+            </li>
+            <li>
+              <strong>Threat modeling</strong>, OWASP Top 10 y nociones de
+              supply chain security (SBOM, SLSA).
+            </li>
+            <li>
+              Scripting en <strong>Python / Bash</strong> y buen manejo de Git.
+            </li>
+          </ul>
+          <p>
+            El detalle de cada tema está en
+            <a href="DevSecOps/overview.html">la página de DevSecOps</a>.
+          </p>
+        </div>
+      </div>
+
+      <footer data-footer></footer>
+    </div>
+
+    <script src="js/menu.js"></script>
+    <script src="js/nieve.js"></script>
+  </body>
+</html>

@@ -4,36 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>web2-0 - Test (adornos shrine)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@progress/kendo-theme-default@14.6.0/dist/default-main-dark.css">
 <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
 
 <div class="contenedor">
 
-	<div class="cabecera">
-		<p class="marca">⭐ Mis Apuntes</p>
-		<p>::: pagina de prueba para ver los adornos :::</p>
-	</div>
-
-	<div class="barra-nav">
-		<a href="index.html">[ INICIO ]</a>
-		<a href="sobre-mi.html">[ SOBRE MI ]</a>
-		<a href="enlaces.html">[ ENLACES ]</a>
-		<a href="test.html">[ TEST ]</a>
-	</div>
+	<header data-header></header>
 
 	<div class="cuerpo">
 
-		<div class="menu-lateral">
-			<p class="menu-titulo">Menu</p>
-			<nav aria-label="Temas">
-			<ul>
-				<li><a href="jenkins.html">Jenkins</a></li>
-				<li><a href="docker.html">Docker</a></li>
-				<li><a href="#">Git (proximamente)</a></li>
-			</ul>
-			</nav>
-			<!-- adorno 5: la cajita de estado, en su lugar natural -->
+		<div class="menu-lateral" data-menu>
+			<!-- adorno 5: la cajita de estado, en su lugar natural.
+			     menu.js inserta el titulo y los enlaces ANTES de esto. -->
 			<div class="estado">
 				<b>&raquo; Estado &laquo;</b>
 				<hr>
@@ -125,15 +109,82 @@ nota es semilla, esta creciendo o ya esta madura.</p>
 	<li><img src="gifs/planta2.gif" alt="creciendo" width="28" style="vertical-align:middle;"> <b>Jenkins</b> &mdash; creciendo (la estoy escribiendo)</li>
 	<li><img src="gifs/planta1.gif" alt="madura" width="28" style="vertical-align:middle;"> <b>HTML basico</b> &mdash; madura (ya la entiendo bien)</li>
 </ul>
+
+<div class="separador"></div>
+
+<h2>10. Libro de visitas con Kendo UI</h2>
+<p>Hecho con <b>jQuery</b> y los componentes gratis de <b>Kendo UI Core</b>.
+Igual que el contador, los mensajes se guardan solo en tu navegador.</p>
+
+<div class="kendo-demo">
+	<form id="formVisita" class="kv-form">
+		<label for="kvNombre">Nombre</label>
+		<input id="kvNombre" name="kvNombre" required validationMessage="Escribe tu nombre">
+
+		<label for="kvPokemon">Pokemon favorito</label>
+		<input id="kvPokemon" name="kvPokemon">
+
+		<label for="kvAnimo">Animo</label>
+		<input id="kvAnimo" name="kvAnimo">
+
+		<label for="kvFecha">Fecha</label>
+		<input id="kvFecha" name="kvFecha">
+
+		<label for="kvMensaje">Mensaje</label>
+		<textarea id="kvMensaje" name="kvMensaje" required validationMessage="Escribe un mensaje"></textarea>
+
+		<label for="kvNota">Nota para la web</label>
+		<input id="kvNota" name="kvNota">
+
+		<button id="kvFirmar" type="submit">Firmar</button>
+	</form>
+
+	<div class="kv-lista">
+		<div id="kvPestanas">
+			<ul>
+				<li>Firmas <span id="kvTotal"></span></li>
+				<li>Estadisticas</li>
+			</ul>
+			<div>
+				<div class="kv-cabecera">
+					<div id="kvOrden"></div>
+				</div>
+				<div id="kvFirmas"></div>
+			</div>
+			<div class="kv-stats">
+				<p>Nota promedio: <b id="kvPromedioTexto"></b></p>
+				<div id="kvPromedio"></div>
+				<p>Firmas con pokemon: <b id="kvConPokemonTexto"></b></p>
+				<div id="kvConPokemon"></div>
+				<p>Animo mas comun: <b id="kvAnimoComun"></b></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<span id="kvAviso"></span>
+<div id="kvConfirmar"></div>
 		</div>
 
 	</div>
 
-	<div class="pie"></div>
+	<footer data-footer></footer>
 
 </div>
 
+<script src="js/menu.js"></script>
 <script src="js/nieve.js"></script>
 <script src="js/contador.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.ui.core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.textbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.textarea.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.slider.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.progressbar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.tabstrip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/kendo.dialog.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/cultures/kendo.culture.es-ES.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kendo-ui-core@2026.3.812/umd/messages/kendo.messages.es-ES.min.js"></script>
+<script src="js/kendo-test.js"></script>
 </body>
 </html>

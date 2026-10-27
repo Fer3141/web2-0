@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - Tríada CIA</title>
+    <link rel="stylesheet" href="../css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <header data-header></header>
+
+      <div class="cuerpo">
+        <div class="menu-lateral" data-menu></div>
+
+        <div class="contenido apuntes">
+          <h1>Tríada CIA</h1>
+
+          <p>
+            La tríada CIA es el modelo conceptual fundamental en la seguridad de
+            la información que guía la protección de cualquier sistema,
+            aplicación o infraestructura. Las siglas corresponden a
+            <strong>Confidencialidad</strong>, <strong>Integridad</strong> y
+            <strong>Disponibilidad</strong>, los tres pilares que deben
+            equilibrarse para mantener una postura de seguridad sólida en
+            entornos de desarrollo y operaciones (DevSecOps).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="confidencialidad">Confidencialidad</h2>
+          <p>
+            Este principio garantiza que la información sensible sea accesible
+            únicamente para las entidades o usuarios que cuentan con la
+            autorización explícita. Si un sistema expone datos que deberían estar
+            ocultos, se ha producido una brecha de confidencialidad. En la
+            práctica técnica, se implementa mediante mecanismos como el cifrado
+            de datos tanto en tránsito (TLS) como en reposo (bases de datos
+            cifradas o almacenamiento seguro), el uso riguroso de políticas de
+            control de acceso y la gestión estricta de secretos, evitando
+            credenciales hardcodeadas en el código fuente o en los repositorios.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="integridad">Integridad</h2>
+          <p>
+            La integridad asegura que los datos y los sistemas de software se
+            mantengan precisos, completos y libres de modificaciones no
+            autorizadas, ya sea por actores maliciosos o por fallos accidentales.
+            Para lograr esto, se emplean funciones hash criptográficas, firmas
+            digitales, sumas de verificación y controles de control de acceso
+            estrictos. En un pipeline de DevSecOps, la integridad se manifiesta al
+            verificar que las dependencias de terceros no hayan sido alteradas
+            mediante ataques de la cadena de suministro, utilizando herramientas
+            como el Software Bill of Materials (SBOM) y la validación de la firma
+            de imágenes de contenedores.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="disponibilidad">Disponibilidad</h2>
+          <p>
+            Este pilar garantiza que los servicios, las aplicaciones y los datos
+            estén accesibles para los usuarios legítimos y sistemas cuando los
+            necesiten. Un sistema perfectamente cifrado e inalterable no es útil
+            si los usuarios no pueden acceder a él. La disponibilidad se logra
+            mediante arquitecturas tolerantes a fallos, redundancia en múltiples
+            regiones, balanceadores de carga, planes de recuperación ante
+            desastres y mitigaciones robustas contra ataques de denegación de
+            servicio (DDoS).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="devsecops">Aplicación en DevSecOps</h2>
+          <p>
+            Estos tres conceptos forman la base para realizar evaluaciones de
+            riesgos y análisis de amenazas en las fases iniciales del diseño de
+            software mediante el enfoque de "shift-left". Al evaluar una
+            arquitectura o un pipeline, cada control de seguridad implementado
+            busca preservar uno o más de estos elementos frente a vectores de
+            ataque conocidos. Un error común es asumir que la seguridad se reduce
+            únicamente a proteger la confidencialidad mediante cifrado o
+            autenticación, ignorando que una pérdida de integridad en el código
+            compilado o una caída de disponibilidad en el servicio interrumpen
+            por completo la operación y destruyen la confianza en el sistema.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="resumen">Resumen</h2>
+          <table>
+            <tr>
+              <th>Pilar</th>
+              <th>Qué asegura</th>
+              <th>Se rompe cuando</th>
+              <th>Controles típicos</th>
+            </tr>
+            <tr>
+              <td><strong>Confidencialidad</strong></td>
+              <td>Que solo quien está autorizado acceda a la información.</td>
+              <td>Fuga de datos, credenciales robadas, permisos mal puestos, un bucket público.</td>
+              <td>Cifrado en reposo y en tránsito, IAM con mínimo privilegio, MFA, clasificación de datos.</td>
+            </tr>
+            <tr>
+              <td><strong>Integridad</strong></td>
+              <td>Que la información no se altere sin autorización, y que se note si pasa.</td>
+              <td>Manipulación de datos, ataque man-in-the-middle, un artefacto alterado en la cadena de suministro.</td>
+              <td>Hashes y firmas digitales, checksums, control de versiones, logs append-only, validación de entrada.</td>
+            </tr>
+            <tr>
+              <td><strong>Disponibilidad</strong></td>
+              <td>Que la información y los servicios estén accesibles cuando se los necesita.</td>
+              <td>DDoS, fallo de hardware, ransomware, borrado accidental, una dependencia caída.</td>
+              <td>Redundancia y alta disponibilidad, backups con plan de restauración probado, autoescalado, rate limiting.</td>
+            </tr>
+          </table>
+
+          <p>
+            <strong>Los tres están en tensión.</strong> Reforzar uno suele
+            costarle a otro: cifrar todo y pedir MFA en cada paso sube la
+            confidencialidad pero puede complicar la disponibilidad; un backup
+            público mejora disponibilidad y rompe confidencialidad. El trabajo
+            es <em>balancear</em> según cuánto vale el activo que protegés.
+          </p>
+          <p>
+            <strong>En la práctica:</strong> cuando analizás un riesgo,
+            preguntate "¿esto afecta C, I o A?". Ayuda a priorizar y a elegir el
+            control adecuado.
+          </p>
+          <p>
+            <strong>Extensiones:</strong> a veces se suman
+            <strong>autenticidad</strong>, <strong>no repudio</strong> y
+            <strong>trazabilidad</strong> (el modelo se llama entonces
+            <em>hexágono de Parker</em>).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="principios-confidencialidad">Principios de confidencialidad</h2>
+
+          <p>
+            Los principios de confidencialidad son el conjunto de reglas y
+            mecanismos destinados a garantizar que la información sensible sea
+            accesible únicamente para quienes están autorizados, impidiendo la
+            divulgación no autorizada.
+          </p>
+          <p>
+            En el contexto de DevSecOps, la confidencialidad no es solo una
+            política estática, sino un requisito técnico integrado en todo el
+            ciclo de vida del desarrollo de software. Esto abarca tres estados
+            principales de los datos: <strong>en tránsito</strong>, <strong>en
+            reposo</strong> y <strong>en uso</strong>.
+          </p>
+          <p>
+            Para proteger los datos <strong>en tránsito</strong>, se implementan
+            protocolos de comunicación seguros como TLS, asegurando que cualquier
+            paquete interceptado en la red sea ilegible debido al cifrado. Para
+            los datos <strong>en reposo</strong>, se aplican algoritmos de
+            cifrado como AES-256 en bases de datos, volúmenes de almacenamiento y
+            sistemas de archivos. Los datos <strong>en uso</strong> se protegen
+            mediante la gestión estricta de la memoria y el aislamiento de
+            procesos.
+          </p>
+          <p>
+            Un error común en ingeniería es asumir que el control de acceso
+            básico o la seguridad perimetral son suficientes para garantizar la
+            confidencialidad. Los principios modernos exigen que los secretos,
+            como las claves de API, las cadenas de conexión a bases de datos y
+            los certificados privados, nunca se codifiquen en texto plano dentro
+            del código fuente ni se expongan en los repositorios de control de
+            versiones. En su lugar, se externalizan utilizando gestores de
+            secretos dedicados y se inyectan de forma segura en el entorno de
+            ejecución.
+          </p>
+          <p>
+            La aplicación práctica también incluye técnicas como el enmascaramiento
+            de datos en entornos de prueba y desarrollo, y la separación estricta
+            de datos sensibles para cumplir con normativas de privacidad.
+          </p>
+
+          <h3 id="clasificacion">Clasificación y etiquetado de datos</h3>
+          <p>
+            Para aplicar la confidencialidad de manera efectiva, es necesario
+            implementar una taxonomía clara que categorice la información según su
+            nivel de sensibilidad, como datos públicos, internos, confidenciales o
+            restringidos. Sin esta clasificación previa, los equipos de ingeniería
+            aplican controles genéricos que a menudo sobreprotegen datos
+            irrelevantes o dejan desprotegida información crítica, como registros
+            de clientes o propiedad intelectual.
+          </p>
+
+          <h3 id="privilegio-minimo">Vinculación con el principio de privilegio mínimo</h3>
+          <p>
+            La confidencialidad y el control de acceso están indisolublemente
+            ligados a través del principio de <strong>"necesidad de saber"</strong>.
+            En entornos de contenedores y microservicios, esto significa que un
+            servicio backend solo debe tener acceso a las tablas o claves de
+            cifrado estrictamente requeridas para su función específica. Si un
+            componente es vulnerado, una arquitectura correctamente segmentada
+            confina el daño y evita la exposición masiva de datos confidenciales.
+          </p>
+
+          <h3 id="minimizacion">Minimización y enmascaramiento de datos</h3>
+          <p>
+            Reducir la superficie de riesgo implica también limitar la recolección
+            y persistencia de información sensible. En las fases de desarrollo y
+            pruebas, donde la seguridad suele relajarse, se deben emplear técnicas
+            de enmascaramiento, tokenización o síntesis de datos para reemplazar
+            información de producción real con datos ficticios pero
+            estructuralmente válidos, evitando que los desarrolladores manejen
+            información innecesariamente expuesta en equipos locales.
+          </p>
+
+          <h3 id="filtracion-indirecta">Vectores de filtración indirecta</h3>
+          <p>
+            Las brechas de confidencialidad en los sistemas modernos rara vez
+            ocurren mediante ataques criptográficos directos, sino a través de
+            fugas operativas. Esto incluye la impresión accidental de tokens o
+            contraseñas en los registros (logs) de la aplicación, el uso de
+            mensajes de error excesivamente detallados que exponen la arquitectura
+            interna, o la inclusión de credenciales en las capas intermedias de
+            imágenes de Docker que pueden ser inspeccionadas por cualquier usuario
+            con acceso al registro de artefactos.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="mecanismos-integridad">Mecanismos de Integridad</h2>
+
+          <p>
+            Los mecanismos de integridad son controles y procesos diseñados para
+            garantizar que los datos, el código y los sistemas no hayan sido
+            alterados, corrompidos o manipulados por partes no autorizadas, ya
+            sea de forma accidental o maliciosa.
+          </p>
+
+          <h3 id="int-como-funcionan">Cómo funcionan</h3>
+          <p>
+            Se basan principalmente en la detección de cambios mediante el uso de
+            funciones hash criptográficas (como SHA-256), sumas de verificación,
+            firmas digitales y controles estrictos de escritura. Cuando un archivo
+            o mensaje sufre cualquier modificación, su valor hash resultante
+            cambia por completo, lo que expone la alteración de inmediato de forma
+            matemática.
+          </p>
+
+          <h3 id="int-devsecops">Por qué importan en DevSecOps</h3>
+          <p>
+            En un entorno de ingeniería de seguridad, la integridad garantiza que
+            los artefactos de software, las dependencias y las configuraciones de
+            infraestructura se mantengan exactos y confiables desde el entorno de
+            desarrollo hasta producción. Previene ataques a la cadena de
+            suministro de software, donde un atacante podría inyectar código
+            malicioso en repositorios, contenedores o paquetes de terceros sin que
+            los desarrolladores lo noten.
+          </p>
+
+          <h3 id="int-practica">Dónde se aplican en la práctica</h3>
+          <p>
+            Los encuentras en la verificación de paquetes mediante archivos
+            <code>package-lock.json</code> o checksums al descargar dependencias,
+            en las firmas GPG utilizadas para validar commits en Git, en la firma
+            de imágenes de contenedores antes de enviarlas a un registro, y en
+            herramientas de monitoreo de integridad de archivos (FIM) que alertan
+            sobre cambios no autorizados en servidores o archivos del sistema. Los
+            mecanismos de integridad operan en múltiples capas del ciclo de vida
+            del software, extendiéndose más allá de las simples sumas de
+            verificación hacia la arquitectura inmutable y la procedencia
+            verificable.
+          </p>
+
+          <h3 id="int-control-acceso">Control de acceso y escrituras</h3>
+          <p>
+            A nivel de sistema de archivos y bases de datos, la integridad se
+            refuerza limitando estrictamente quién puede modificar los recursos.
+            Se implementan permisos de solo lectura, sistemas de archivos
+            inmutables y registros de auditoría que hacen trazable cualquier
+            intento de alteración. La prevención activa mediante control de acceso
+            complementa a la detección pasiva basada en hashes.
+          </p>
+
+          <h3 id="int-slsa">Procedencia del software y el marco SLSA</h3>
+          <p>
+            En el desarrollo moderno, la integridad abarca toda la cadena de
+            suministro a través de estándares como <strong>SLSA</strong>
+            (Supply-chain Levels for Software Artifacts). Esto implica generar
+            metadatos firmados criptográficamente que prueban no solo qué es un
+            artefacto, sino exactamente cómo y dónde fue construido, asegurando
+            que el binario provenga de un pipeline de CI/CD automatizado y no de
+            una fuente no verificada.
+          </p>
+
+          <h3 id="int-secure-boot">Arranque seguro y hardware</h3>
+          <p>
+            En la capa de infraestructura, la integridad se extiende al hardware
+            mediante tecnologías como <strong>Secure Boot</strong> y el Módulo de
+            Plataforma Confiable (TPM). Secure Boot verifica la firma digital del
+            gestor de arranque y del kernel del sistema operativo antes de
+            cargarlos, asegurando que el sistema no haya sido comprometido a nivel
+            de firmware o rootkit antes de iniciar.
+          </p>
+
+          <h3 id="int-errores">Errores comunes</h3>
+          <p>
+            Un malentendido frecuente es asumir que cifrar los datos garantiza su
+            integridad. El cifrado protege la confidencialidad para que nadie lea
+            la información, pero un atacante aún podría alterar los bytes cifrados
+            si no se utiliza un mecanismo específico de integridad, como un modo
+            de cifrado autenticado o una firma digital independiente.
+          </p>
+        </div>
+      </div>
+
+      <footer data-footer></footer>
+    </div>
+
+    <script src="../js/menu.js"></script>
+    <script src="../js/nieve.js"></script>
+  </body>
+</html>

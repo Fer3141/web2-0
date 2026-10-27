@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>web2-0 - SAST, SCA y DAST</title>
+    <link rel="stylesheet" href="../css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <header data-header></header>
+
+      <div class="cuerpo">
+        <div class="menu-lateral" data-menu></div>
+
+        <div class="contenido apuntes">
+          <h1>SAST, DAST y SCA</h1>
+
+          <p>
+            Las tres maneras de análisis automático de seguridad de
+            aplicaciones. Cada una apunta a una parte distinta.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="sast">1. SAST (Static Application Security Testing &mdash; Pruebas Estáticas)</h2>
+
+          <p>
+            <strong>¿Qué es?</strong> Esencialmente, es como tener un revisor
+            automático que lee el código fuente (sin ejecutarlo) buscando fallas
+            de seguridad, malas prácticas o errores de sintaxis que puedan
+            convertirse en vulnerabilidades (como contraseñas hardcodeadas o
+            vulnerabilidades lógicas).
+          </p>
+          <p>
+            <strong>Cuándo se usa:</strong> muy temprano en el desarrollo, a
+            menudo directamente en el editor de código o justo al hacer un
+            commit.
+          </p>
+          <p><strong>Herramientas populares:</strong></p>
+          <ul>
+            <li>SonarQube / SonarCloud &mdash; <a href="https://www.sonarsource.com/products/sonarqube/downloads/" target="_blank" rel="noopener">descargar SonarQube</a> &middot; <a href="https://www.sonarsource.com/products/sonarqube/cloud/" target="_blank" rel="noopener">SonarCloud (en la nube, sin descarga)</a></li>
+            <li>Semgrep &mdash; <a href="https://semgrep.dev/docs/getting-started/quickstart" target="_blank" rel="noopener">instalar</a> &middot; <a href="https://github.com/semgrep/semgrep" target="_blank" rel="noopener">GitHub</a></li>
+            <li>Checkmarx &mdash; <a href="https://checkmarx.com/" target="_blank" rel="noopener">web oficial</a> (de pago, sin descarga libre)</li>
+            <li>GitHub Advanced Security (CodeQL) &mdash; <a href="https://github.com/github/codeql-cli-binaries/releases" target="_blank" rel="noopener">descargar CodeQL CLI</a> &middot; <a href="https://codeql.github.com/" target="_blank" rel="noopener">documentación</a></li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="sca">2. SCA (Software Composition Analysis &mdash; Análisis de Composición de Software)</h2>
+
+          <p>
+            <strong>¿Qué es?</strong> Las aplicaciones modernas no se escriben
+            desde cero; utilizan cientos de librerías, paquetes y dependencias de
+            terceros (como módulos de npm, paquetes de PyPI, etc.). El SCA escanea
+            todas estas dependencias externas para avisarte si estás usando alguna
+            versión que tenga vulnerabilidades públicas conocidas (CVEs).
+          </p>
+          <p>
+            <strong>Cuándo se usa:</strong> durante la gestión de dependencias y
+            en la integración continua (CI/CD).
+          </p>
+          <p><strong>Herramientas populares:</strong></p>
+          <ul>
+            <li>Snyk &mdash; <a href="https://docs.snyk.io/developer-tools/snyk-cli/install-the-snyk-cli" target="_blank" rel="noopener">instalar Snyk CLI</a></li>
+            <li>OWASP Dependency-Check &mdash; <a href="https://github.com/dependency-check/DependencyCheck/releases" target="_blank" rel="noopener">descargar</a> &middot; <a href="https://owasp.org/www-project-dependency-check/" target="_blank" rel="noopener">web oficial</a></li>
+            <li>GitHub Dependabot &mdash; <a href="https://docs.github.com/en/code-security/dependabot" target="_blank" rel="noopener">cómo activarlo</a> (no se descarga, viene en GitHub)</li>
+            <li>Trivy &mdash; <a href="https://github.com/aquasecurity/trivy/releases" target="_blank" rel="noopener">descargar</a></li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="dast">3. DAST (Dynamic Application Security Testing &mdash; Pruebas Dinámicas)</h2>
+
+          <p>
+            <strong>¿Qué es?</strong> A diferencia de SAST, el DAST analiza la
+            aplicación mientras está en ejecución. Simula ataques externos (como
+            inyecciones SQL o ataques de fuerza bruta) desde el punto de vista de
+            un hacker real para ver cómo reacciona el sistema desplegado en un
+            entorno de pruebas.
+          </p>
+          <p>
+            <strong>Cuándo se usa:</strong> en etapas más avanzadas del pipeline,
+            cuando la aplicación ya está corriendo en un entorno de pruebas o
+            pre-producción.
+          </p>
+          <p><strong>Herramientas populares:</strong></p>
+          <ul>
+            <li>OWASP ZAP (Zed Attack Proxy) &mdash; <a href="https://www.zaproxy.org/download/" target="_blank" rel="noopener">descargar</a></li>
+            <li>Burp Suite (versión Enterprise / Automated) &mdash; <a href="https://portswigger.net/burp/dast" target="_blank" rel="noopener">web de la versión Enterprise</a> (de pago) &middot; <a href="https://portswigger.net/burp/communitydownload" target="_blank" rel="noopener">descargar Community (gratis)</a></li>
+            <li>Nuclei &mdash; <a href="https://github.com/projectdiscovery/nuclei/releases" target="_blank" rel="noopener">descargar</a></li>
+          </ul>
+
+          <!-- ================================================================ -->
+          <h2 id="comparativa">Comparativa</h2>
+          <table>
+            <tr>
+              <th></th>
+              <th>SAST</th>
+              <th>DAST</th>
+              <th>SCA</th>
+            </tr>
+            <tr>
+              <td><strong>Qué mira</strong></td>
+              <td>El código fuente / bytecode, sin ejecutarlo.</td>
+              <td>La aplicación corriendo, por HTTP, desde afuera.</td>
+              <td>El árbol de dependencias (<code>package-lock.json</code>, <code>pom.xml</code>&hellip;).</td>
+            </tr>
+            <tr>
+              <td><strong>Necesita</strong></td>
+              <td>Solo el repo.</td>
+              <td>Un entorno desplegado y accesible.</td>
+              <td>El manifiesto de dependencias.</td>
+            </tr>
+            <tr>
+              <td><strong>Cuándo corre</strong></td>
+              <td>En cada commit / Pull Request.</td>
+              <td>Contra staging (nocturno o antes del deploy).</td>
+              <td>En cada commit / Pull Request.</td>
+            </tr>
+            <tr>
+              <td><strong>Encuentra</strong></td>
+              <td>Inyección SQL, XSS en el código, secretos hardcodeados, criptografía débil.</td>
+              <td>XSS reflejado, headers de seguridad faltantes, TLS mal configurado, autenticación rota.</td>
+              <td>CVE conocidos en librerías de terceros, licencias problemáticas.</td>
+            </tr>
+            <tr>
+              <td><strong>No ve</strong></td>
+              <td>Errores de configuración en runtime, fallos de lógica de negocio.</td>
+              <td>En qué línea de código está el bug; código no alcanzable por HTTP.</td>
+              <td>Tu propio código.</td>
+            </tr>
+            <tr>
+              <td><strong>Falsos positivos</strong></td>
+              <td>Altos.</td>
+              <td>Bajos&ndash;medios.</td>
+              <td>Bajos.</td>
+            </tr>
+            <tr>
+              <td><strong>Herramientas</strong></td>
+              <td>Semgrep, SonarQube, CodeQL, Bandit.</td>
+              <td>OWASP ZAP, Burp Suite, Nikto.</td>
+              <td>Snyk, Dependabot, Trivy, OWASP Dependency-Check.</td>
+            </tr>
+          </table>
+          <p>
+            Regla mnemotécnica: <strong>SAST = caja blanca</strong> (ve el
+            código), <strong>DAST = caja negra</strong> (ve la app como un
+            atacante), <strong>SCA = lista de ingredientes</strong> (lo que
+            trajiste de afuera).
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="detalle">En detalle</h2>
+
+          <h3>SAST &mdash; análisis estático</h3>
+          <p>
+            Lee el código sin ejecutarlo y busca patrones peligrosos: datos que
+            llegan del usuario y terminan en una consulta SQL sin sanitizar,
+            claves API escritas en el fuente, uso de funciones criptográficas
+            obsoletas. Corre rápido y temprano, así que va en el pipeline del
+            Pull Request. Su punto débil son los <strong>falsos positivos</strong>:
+            sin ajustar las reglas, genera mucho ruido y el equipo lo empieza a
+            ignorar. No entiende la configuración de runtime ni si una ruta
+            vulnerable es realmente alcanzable.
+          </p>
+
+          <h3>DAST &mdash; análisis dinámico</h3>
+          <p>
+            Ataca la aplicación <em>mientras corre</em>, mandándole peticiones
+            maliciosas como haría un atacante externo. Encuentra cosas que solo
+            se ven en ejecución: cabeceras de seguridad faltantes, cookies sin
+            <code>HttpOnly</code>, TLS mal configurado, XSS reflejado. Necesita
+            un entorno desplegado, es más lento y <strong>no te dice la línea de
+            código</strong> que hay que tocar, solo la URL y el síntoma. Por eso
+            suele correr contra staging, de noche o antes de un deploy.
+            Importante: correr un DAST contra un sistema que no es tuyo, sin
+            autorización por escrito, es un ataque.
+          </p>
+
+          <h3>SCA &mdash; análisis de dependencias</h3>
+          <p>
+            Mira las librerías de terceros que usa el proyecto y las cruza con
+            bases de vulnerabilidades conocidas (CVE, avisos de GitHub). El
+            código propio suele ser una fracción de lo que se despliega; el
+            resto son dependencias, y ahí es donde entran la mayoría de los
+            problemas hoy. También revisa las <strong>licencias</strong> y genera
+            el <strong>SBOM</strong> (<em>Software Bill of Materials</em>): la
+            lista completa y versionada de todo lo que compone el build, útil
+            para responder "¿me afecta esta CVE nueva?" en minutos.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="combinar">Cómo se combinan en un pipeline</h2>
+          <ul>
+            <li>
+              <strong>En el Pull Request:</strong> SCA y SAST, que son rápidos.
+              Si aparece algo de severidad alta, el pipeline falla y bloquea el
+              merge.
+            </li>
+            <li>
+              <strong>Contra staging:</strong> DAST, más lento, en un job
+              nocturno o previo al deploy.
+            </li>
+            <li>
+              <strong>Triage:</strong> no trates todo hallazgo como crítico.
+              Priorizá por severidad y por probabilidad real de explotación
+              (<strong>CVSS</strong> para el impacto, <strong>EPSS</strong> para
+              la probabilidad).
+            </li>
+          </ul>
+          <p>
+            El <a href="overview.html#ejemplo-concreto">ejemplo de pipeline en el
+            overview</a> ya mete un SCA (Snyk) y un SAST (ESLint con reglas de
+            seguridad) en el workflow del Pull Request.
+          </p>
+
+          <!-- ================================================================ -->
+          <h2 id="errores">Errores comunes</h2>
+          <ul>
+            <li>Correr las herramientas con la configuración por defecto y no ajustar las reglas: el ruido entierra los hallazgos reales.</li>
+            <li>No versionar la configuración del escáner junto al código.</li>
+            <li>Silenciar un hallazgo sin dejar escrito por qué (mejor una supresión con justificación y fecha de revisión que un "ignorar" a ciegas).</li>
+            <li>Tratar el número de hallazgos como métrica de éxito en vez de mirar cuáles se arreglaron.</li>
+            <li>Lanzar un DAST sobre entornos de producción o de terceros sin autorización.</li>
+          </ul>
+
+          <p style="text-align:center;">
+            <img src="../gifs/pikachu2.gif" alt="Pikachu animado" width="160" />
+          </p>
+        </div>
+      </div>
+
+      <footer data-footer></footer>
+    </div>
+
+    <script src="../js/menu.js"></script>
+    <script src="../js/nieve.js"></script>
+  </body>
+</html>

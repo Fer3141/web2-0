@@ -1,14 +1,15 @@
 /* ============================================
-   ESTILOS  web2-0
-   Hecho con <div> y flexbox (sin tablas de maquetado),
-   pero con la vibra pastel de las paginas personales
-   de los 90 / 2000: Comic Sans, colores suaves,
-   bordes con relieve y cartel de "en construccion".
-   ============================================ */
+   ESTILOS  web2-0  ·  PALETA "NEON" (tema oscuro)
+   Misma maqueta que estilos.css (div + flexbox, misma
+   estructura de clases y adornos shrine), pero con paleta
+   cyber sobre fondo oscuro en vez de la pastel de los 2000.
 
-/* Comic Neue: clon libre de Comic Sans, se ve igual en todos los
-   dispositivos (el iPhone no trae Comic Sans y se veia raro). */
-@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
+   PALETA
+     Primary   #00E5FF  cian   -> titulos, marca, enlaces
+     Secondary #0066CC  azul   -> bordes de acento, badges, hover
+     Tertiary  #00FF66  verde  -> pagina activa, parpadeos, contador
+     Neutral   #121820  fondo oscuro base
+   ============================================ */
 
 /* que el padding y el borde NO agranden las cajas */
 * {
@@ -17,15 +18,15 @@
 
 body {
 	margin: 0;
-	color: #5b4b57;
+	color: #c8d2dc;
 	font-family: "Times New Roman", Times, serif;
 	font-size: 16px;
 
-	/* papel tapiz: fondo.jpg repetido como mosaico (la ruta es
-	   relativa a este archivo CSS, que esta en css/) */
-	background-color: #f6eef7;              /* color de respaldo si la imagen no carga */
-	background-image: url("../gifs/fondo.jpg");
-	background-repeat: repeat;              /* se repite en X e Y (es el valor por defecto) */
+	/* papel tapiz: en vez de un JPG, una grilla de puntos tenue
+	   sobre el neutro oscuro (sin depender de ningun archivo) */
+	background-color: #121820;
+	background-image: radial-gradient(rgba(0, 229, 255, 0.10) 1px, transparent 1px);
+	background-size: 22px 22px;
 }
 
 /* caja que centra y limita el ancho de toda la pagina */
@@ -33,51 +34,52 @@ body {
 	width: 92%;
 	max-width: 1400px;
 	margin: 20px auto;
-	background-color: #f3e6de;
-	border: 4px outset #ffffff;   /* borde con relieve tipo Windows 98 */
+	background-color: #161f2a;
+	border: 2px solid #0066cc;
+	box-shadow: 0 0 14px rgba(0, 229, 255, 0.20);
 }
 
 /* ---------- franja de arriba con el titulo ---------- */
 .cabecera {
-	background-color: #d9c2d9;
+	background-color: #1b2735;
 	padding: 16px;
 	text-align: center;
+	border-bottom: 1px solid #26374a;
 }
 
 /* nombre del sitio (marca): NO es un <h1>, es solo el logo de texto
    que se repite en todas las paginas */
 .cabecera .marca {
-	display: inline-block;              /* para que el fondo rosa envuelva solo al texto */
+	display: inline-block;              /* para que el fondo envuelva solo al texto */
 	margin: 0;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: clamp(24px, 3.2vw, 40px);
-	color: #6b4d66;
-	text-shadow: 1px 1px 0 #ffffff;
-	background-color: #efe0ee;          /* el recuadro rosa claro de web1-0 */
+	color: #00e5ff;
+	text-shadow: 0 0 8px rgba(0, 229, 255, 0.55);
 	padding: 4px 16px;
 	border-radius: 6px;
 }
 
 .cabecera p {
 	margin: 6px 0 0;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: 13px;
-	color: #7a5f76;
+	color: #7f8fa0;
 }
 
 /* ---------- menu horizontal de arriba ---------- */
 .barra-nav {
-	background-color: #cfe3d8;
-	border-top: 2px solid #ffffff;
-	border-bottom: 1px solid #b7cec1;
+	background-color: #16202b;
+	border-top: 1px solid #26374a;
+	border-bottom: 1px solid #26374a;
 	padding: 8px;
 	text-align: center;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 }
 
 .barra-nav a {
-	color: #4d6b5a;
+	color: #00e5ff;
 	text-decoration: none;
 	margin: 0 8px;
 	padding: 2px 6px;
@@ -85,101 +87,139 @@ body {
 }
 
 .barra-nav a:hover {
-	background-color: #ffffff;
-	color: #3a5347;
+	background-color: #0066cc;
+	color: #ffffff;
+}
+
+/* pagina activa de la barra de arriba (la marca menu.js) */
+.barra-nav a.activo {
+	background-color: #0066cc;
+	color: #ffffff;
+	text-decoration: underline;
 }
 
 /* ---------- zona central: menu al costado + contenido ---------- */
-/* flexbox pone los dos hijos (menu y contenido) uno al lado del otro */
 .cuerpo {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-/* menu de la izquierda, ancho fijo, con el clasico recuadro amarillento */
+/* menu de la izquierda: UN arbol de carpetas estilo explorador viejo. */
 .menu-lateral {
-	width: 200px;
-	background-color: #fdf3d7;
-	border: 2px solid #ecdfb0;
+	width: 230px;
+	background-color: #141d27;
+	border: 1px solid #26374a;
 	padding: 12px;
-	font-size: 15px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 14px;
+	line-height: 1.6;
+	color: #aeb9c4;
 }
 
 .menu-lateral .menu-titulo {
 	margin: 0 0 8px;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
-	font-size: 16px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 18px;
 	font-weight: bold;
-	color: #a8709b;
+	color: #00e5ff;
 }
 
+/* --- carpetas: cada <details> es una carpeta --- */
+
+.menu-lateral summary {
+	cursor: pointer;
+	list-style: none;              /* Firefox: saca el triangulo por defecto */
+	user-select: none;
+	padding: 1px 0;
+	font-weight: bold;
+	color: #00e5ff;
+}
+
+.menu-lateral summary::-webkit-details-marker {
+	display: none;                 /* Chrome / Safari */
+}
+
+/* [+] y carpeta cerrada, delante del nombre */
+.menu-lateral summary::before {
+	content: "[+] \1F4C1\00A0";    /* [+] 📁 + espacio duro */
+	font-family: "Courier New", monospace;
+	font-weight: normal;
+	font-size: 11px;
+	color: #00ff66;
+}
+
+/* al abrir: [-] y carpeta abierta */
+.menu-lateral details[open] > summary::before {
+	content: "[\2212] \1F4C2\00A0"; /* [-] 📂 */
+}
+
+/* --- ramas: la lista de una carpeta --- */
+
 .menu-lateral ul {
-	list-style: none;   /* saca los puntitos */
-	padding: 0;
+	list-style: none;
+	margin: 0 0 0 0.55em;
+	padding: 0 0 0 0.9em;
+	border-left: 1px dotted #6b8cce;   /* la linea vertical del arbol (azul periwinkle) */
+}
+
+/* la lista raiz no lleva linea (es el tronco) */
+.menu-lateral .menu-arbol {
 	margin: 0;
+	padding: 0;
+	border-left: none;
 }
 
 .menu-lateral li {
-	margin-bottom: 8px;
-	border-bottom: 1px dashed #e0c98a;
-	padding-bottom: 6px;
+	position: relative;
+	margin: 0;
+	padding: 1px 0 1px 12px;
+	border: none;
+}
+
+.menu-lateral .menu-arbol > li {
+	padding-left: 0;
+}
+
+/* tick horizontal punteado desde la linea vertical hasta la hoja */
+.menu-lateral li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.8em;
+	width: 9px;
+	border-top: 1px dotted #6b8cce;
+}
+
+.menu-lateral .menu-arbol > li::before {
+	display: none;   /* los nodos de primer nivel no cuelgan de nada */
+}
+
+/* si un <li> contiene una carpeta, corro el contenido para alinear el [+] */
+.menu-lateral li > details {
+	margin-left: -12px;
+	padding-left: 12px;
 }
 
 .menu-lateral a {
-	color: #a8709b;
+	color: #b7c2cd;
 	text-decoration: none;
 }
 
 .menu-lateral a:hover {
+	color: #00e5ff;
 	text-decoration: underline;
 }
 
-/* marca el item activo del menu principal (la tecnologia que estas viendo) */
+/* icono de documento delante de cada enlace a una pagina */
+.menu-lateral li > a::before {
+	content: "\1F4C4\00A0";   /* 📄 + espacio duro */
+	font-size: 11px;
+}
+
+/* la pagina / seccion que estas viendo, marcada */
 .menu-lateral a.activo {
 	font-weight: bold;
-	text-decoration: underline;
-}
-
-/* ---------- SEGUNDA COLUMNA: sub-menu de la tecnologia ---------- */
-/* Es una columna aparte al lado del menu principal (estilo jenkov.com).
-   No se "expande": simplemente esta presente en la pagina de esa
-   tecnologia (jenkins.html) y no aparece en las demas paginas. */
-.submenu-lateral {
-	width: 210px;
-	background-color: #fff4f9;             /* rosa muy clarito */
-	border-top: 2px solid #ecdfb0;
-	border-bottom: 2px solid #ecdfb0;
-	border-right: 2px solid #ecdfb0;
-	padding: 12px;
-	font-size: 14px;
-}
-
-.submenu-lateral .submenu-titulo {
-	margin: 0 0 8px;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
-	font-size: 15px;
-	font-weight: bold;
-	color: #a8709b;
-}
-
-.submenu-lateral ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.submenu-lateral li {
-	margin-bottom: 10px;
-	border-bottom: 1px dashed #e6c9d8;
-	padding-bottom: 6px;
-}
-
-.submenu-lateral a {
-	color: #a8709b;
-	text-decoration: none;
-}
-
-.submenu-lateral a:hover {
+	color: #00ff66;
 	text-decoration: underline;
 }
 
@@ -187,10 +227,9 @@ body {
 .contenido {
 	flex: 1;
 	min-width: 260px;
-	background-color: #fffdfb;
+	background-color: #0f1720;
 	padding: 18px;
 
-	/* texto del contenido en Verdana, tamanio comodo para leer */
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: 14px;
 	line-height: 1.6;
@@ -200,8 +239,8 @@ body {
 .contenido h2,
 .contenido h3 {
 	margin-top: 0;
-	font-family: "Comic Neue", "Comic Sans MS", "Chalkboard SE", cursive;
-	color: #a8709b;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	color: #00e5ff;
 }
 
 /* el <h1> de cada pagina: su titulo real (Jenkins, Sobre mi, ...) */
@@ -210,19 +249,19 @@ body {
 	margin-bottom: 14px;
 }
 
-/* enlaces del contenido: rosa palido, y morado si ya fueron visitados */
+/* enlaces del contenido: cian, y un cian mas apagado si ya fueron visitados */
 a {
-	color: #a8709b;
+	color: #00e5ff;
 }
 
 a:visited {
-	color: #8a7aa8;
+	color: #4aa3c9;
 }
 
 /* ---------- texto que parpadea (el viejo <blink>) ---------- */
 .parpadea {
 	animation: parpadeo 1.4s ease-in-out infinite;
-	color: #d98fa3;
+	color: #00ff66;
 	font-weight: bold;
 }
 
@@ -232,24 +271,24 @@ a:visited {
 
 /* ---------- cartel de "en construccion" ---------- */
 .construccion {
-	background-color: #fdeecb;
-	color: #7a6a4a;
+	background-color: #17241c;
+	color: #00ff66;
 	font-weight: bold;
 	text-align: center;
 	padding: 8px;
-	border: 2px dashed #e0c98a;
+	border: 2px dashed #00ff66;
 	border-radius: 6px;
 	margin: 12px 0;
 }
 
 /* ---------- bloque de codigo ---------- */
 .codigo {
-	background-color: #fbf4f8;
-	border: 1px solid #d9c9d6;
+	background-color: #0b1219;
+	border: 1px solid #26374a;
 	padding: 10px;
 	font-family: "Courier New", monospace;
 	font-size: 14px;
-	color: #5b4b57;
+	color: #c8d2dc;
 	white-space: pre-wrap;   /* corta las lineas largas en vez de desbordar */
 	overflow-x: auto;
 }
@@ -262,50 +301,48 @@ table {
 }
 
 th, td {
-	border: 1px solid #e3d3dc;
+	border: 1px solid #26374a;
 	padding: 6px 8px;
 	text-align: left;
 }
 
 th {
-	background-color: #d9c2d9;
-	color: #5c4058;
+	background-color: #0066cc;
+	color: #ffffff;
 }
 
 /* ---------- lineas divisorias suaves ---------- */
 hr {
 	border: none;
 	height: 2px;
-	background-color: #e3cfd9;
+	background-color: #26374a;
 }
 
 /* ---------- pie de pagina ---------- */
 .pie {
-	background-color: #e6d6df;
-	color: #7a6172;
+	background-color: #16202b;
+	color: #7f8fa0;
 	text-align: center;
 	padding: 10px;
 	font-size: 12px;
+	border-top: 1px solid #26374a;
 }
 
 .pie a {
-	color: #6b4d66;
+	color: #00e5ff;
 }
 
 /* ---------- pantallas angostas (celular) ---------- */
-/* los menus dejan de estar al costado y pasan arriba, ocupando todo el ancho */
 @media (max-width: 700px) {
-	.menu-lateral,
-	.submenu-lateral {
+	.menu-lateral {
 		width: 100%;
-		border-width: 2px 0;
+		border-width: 1px 0;
 	}
 }
 
 /* ============================================
    ADORNOS ESTILO "SHRINE"  (se ven en test.html)
-   Cosas tipicas de una pagina personal de los 2000.
-   Misma paleta pastel que el resto.
+   Misma idea, con la paleta neon.
    ============================================ */
 
 /* 1) separador candy: reemplaza al <hr>, es CSS puro y se mueve */
@@ -314,7 +351,7 @@ hr {
 	margin: 18px 0;
 	border-radius: 7px;
 	background: repeating-linear-gradient(90deg,
-		#f7c6dd 0 10px, #c9e7d5 10px 20px, #d9c8ee 20px 30px);
+		#00e5ff 0 10px, #0066cc 10px 20px, #00ff66 20px 30px);
 	background-size: 60px 100%;
 	animation: correr 1s linear infinite;
 }
@@ -327,8 +364,8 @@ hr {
 .marquesina {
 	overflow: hidden;
 	white-space: nowrap;
-	background-color: #efe0ee;
-	border: 1px solid #d9c2d9;
+	background-color: #16202b;
+	border: 1px solid #0066cc;
 	border-radius: 4px;
 	padding: 4px 0;
 }
@@ -346,20 +383,20 @@ hr {
 /* 3) contador de visitas */
 .contador {
 	display: inline-block;
-	background-color: #ece3f3;
-	color: #6b5a86;
+	background-color: #0b1219;
+	color: #00ff66;
 	font-family: "Courier New", monospace;
 	font-size: 20px;
 	letter-spacing: 4px;
 	padding: 4px 10px;
-	border: 2px solid #cdb9de;
+	border: 2px solid #0066cc;
 	border-radius: 4px;
 }
 
 /* 5) cajita de "estado" para el menu lateral */
 .estado {
-	background-color: #fbf6ea;
-	border: 1px solid #ecdfb0;
+	background-color: #141d27;
+	border: 1px solid #26374a;
 	border-radius: 4px;
 	padding: 8px;
 	margin-top: 12px;
@@ -369,22 +406,278 @@ hr {
 /* 6) blinkie: badge parpadeante (reusa la animacion parpadeo) */
 .blinkie {
 	display: inline-block;
-	background-color: #2b2b2b;
-	color: #7CFC00;
+	background-color: #0b1219;
+	color: #00ff66;
 	font-family: "Courier New", monospace;
 	font-size: 11px;
 	text-align: center;
 	padding: 3px 6px;
-	border: 1px solid #000000;
+	border: 1px solid #0066cc;
 	animation: parpadeo 1s steps(1) infinite;
 }
 
 /* 7) caja de webring */
 .webring {
-	background-color: #f3e6de;
-	border: 1px solid #d9c2b0;
+	background-color: #16202b;
+	border: 1px solid #26374a;
 	border-radius: 4px;
 	padding: 8px;
 	text-align: center;
 	font-size: 13px;
+}
+
+/* ============================================
+   ROADMAP DevSecOps  (se ve en devsecops.html)
+   ============================================ */
+
+.roadmap {
+	position: relative;
+	max-width: 820px;
+	margin: 24px auto;
+}
+
+/* la espina: la linea vertical que recorre el centro */
+.roadmap::before {
+	content: "";
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 50%;
+	width: 3px;
+	margin-left: -1px;
+	background-color: #0066cc;
+}
+
+/* una fila = la etapa (centro) + su rama de temas (a un costado) */
+.rm-fila {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 12px 0;
+}
+
+.rm-lado {
+	flex: 1 1 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-content: center;
+}
+
+.rm-lado.izq {
+	justify-content: flex-end;   /* los temas de la izquierda pegados a la espina */
+}
+
+/* la caja de la etapa: va por encima de la espina */
+.rm-nodo {
+	flex: 0 0 200px;
+	text-align: center;
+	background-color: #1b2735;
+	border: 2px solid #00e5ff;
+	border-radius: 8px;
+	padding: 9px 12px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	color: #e6edf3;
+	box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+	position: relative;
+	z-index: 1;
+}
+
+/* pastilla de tema (rama) */
+.rm-tema {
+	background-color: #141d27;
+	border: 1px solid #26374a;
+	border-radius: 6px;
+	padding: 4px 10px;
+	font-size: 13px;
+	color: #aeb9c4;
+	align-self: center;
+}
+
+/* tema de seguridad: acento verde y etiqueta "Sec" */
+.rm-tema.sec {
+	background-color: #10231a;
+	border-color: #00ff66;
+	color: #00ff66;
+}
+
+.rm-tema.sec::after {
+	content: " \00b7 Sec";
+	font-weight: bold;
+	font-size: 11px;
+	opacity: 0.75;
+}
+
+/* pantallas angostas: se apila en una columna y se saca la espina */
+@media (max-width: 760px) {
+	.roadmap::before {
+		display: none;
+	}
+	.rm-fila {
+		flex-direction: column;
+		gap: 6px;
+	}
+	.rm-lado,
+	.rm-lado.izq {
+		justify-content: center;
+	}
+	.rm-lado:empty {
+		display: none;
+	}
+	.rm-nodo {
+		flex-basis: auto;
+		width: 100%;
+	}
+}
+
+.kendo-demo {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	padding: 16px;
+	border: 1px dashed #0066cc;
+	background-color: #121a24;
+}
+
+.kv-form {
+	flex: 1 1 260px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.kv-form label {
+	margin-top: 8px;
+	font-weight: bold;
+	color: #00e5ff;
+}
+
+#kvFirmar {
+	margin-top: 16px;
+}
+
+.kv-lista {
+	flex: 2 1 320px;
+}
+
+.kv-cabecera {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #00e5ff;
+}
+
+.kv-firma {
+	padding: 10px 12px;
+	margin-bottom: 10px;
+	border-left: 3px solid #00ff66;
+	background-color: #161f2a;
+}
+
+.kv-firma p {
+	margin: 6px 0;
+}
+
+.kv-firma-cabecera {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.kv-pokemon {
+	padding: 0 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	background-color: #0066cc;
+	color: #ffffff;
+}
+
+.kv-fecha {
+	margin-left: auto;
+	font-size: 12px;
+	color: #7f8ea0;
+	cursor: help;
+}
+
+.kv-firma-pie {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	color: #7f8ea0;
+}
+
+.kv-animo {
+	margin-right: auto;
+}
+
+.kv-form .k-slider {
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.kv-nota {
+	color: #ffd700;
+	letter-spacing: 1px;
+}
+
+.kv-stats p {
+	margin: 12px 0 6px;
+}
+
+.kv-stats .k-progressbar {
+	width: 100%;
+}
+
+#kvPestanas .k-tabstrip-content {
+	padding: 12px;
+}
+
+.kv-vacio {
+	text-align: center;
+	color: #7f8ea0;
+}
+
+.k-calendar table,
+.k-calendar th,
+.k-calendar td {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	text-align: center;
+}
+
+.k-calendar th {
+	color: inherit;
+}
+
+.k-popup a,
+.k-calendar a {
+	color: inherit;
+}
+
+:root {
+	--kendo-color-primary: #0066cc;
+	--kendo-color-primary-hover: #0077e6;
+	--kendo-color-primary-active: #0055aa;
+	--kendo-color-primary-emphasis: #00e5ff;
+	--kendo-color-on-primary: #ffffff;
+}
+
+.k-dialog,
+.k-notification,
+.k-tooltip,
+.k-popup {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 14px;
 }
