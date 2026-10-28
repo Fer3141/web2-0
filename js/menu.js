@@ -65,6 +65,10 @@
       ],
     },
     {
+      folder: "Proyectos",
+      children: [{ href: "proyectos/charlemos.html", texto: "Charlemos" }],
+    },
+    {
       folder: "Meta",
       children: [{ href: "certificaciones.html", texto: "Certificaciones" }],
     },
@@ -76,7 +80,7 @@
   /* prefijo para los enlaces: si estamos dentro de una subcarpeta de un
      nivel (DevSecOps/ o herramientas/), hay que subir con "../".
      Los href de MENU/BARRA se escriben relativos a la raiz. */
-  var base = /\/(?:DevSecOps|herramientas)\//.test(location.pathname) ? "../" : "";
+  var base = /\/(?:DevSecOps|herramientas|proyectos)\//.test(location.pathname) ? "../" : "";
 
   /* ultimo segmento de un href, sin carpeta ni #ancla: "a/b.html#x" -> "b.html" */
   function archivo(href) {
