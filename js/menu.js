@@ -69,7 +69,7 @@
       children: [{ href: "proyectos/charlemos.html", texto: "Charlemos" }],
     },
     {
-      folder: "Meta",
+      folder: "Certificaciones",
       children: [{ href: "certificaciones.html", texto: "Certificaciones" }],
     },
   ];
